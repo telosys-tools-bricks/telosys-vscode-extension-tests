@@ -1,0 +1,9 @@
+${SHARP} Python class for configuration
+${SHARP} Created on $today.date ( Time $today.time )
+
+
+# TODO : set a full path 
+database_file = "database.sqlite"
+
+
+database_url = "sqlite:///" + database_file

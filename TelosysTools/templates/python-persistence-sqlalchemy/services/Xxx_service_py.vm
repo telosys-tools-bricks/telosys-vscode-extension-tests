@@ -1,0 +1,152 @@
+# Python class for service of ${entity.name} 
+# Created on 2017-08-29 ( Time 14:38:04 )
+
+from dao.${entity.name}_dao import ${entity.name}Dao
+from commons.ListItem_class import ListItem
+
+class ${entity.name}Service:
+    def __init__(self):
+        self.dao = ${entity.name}Dao()
+
+    def find_by_id(self, $entity.keyAttributesNamesAsString(', ')):
+        """
+        Tries to find an entity using its Id / Primary Key
+        :param $entity.keyAttributesNamesAsString(', '): PK of the entity to find
+        :return: False if entity not found, entity if found
+        """
+        return self.dao.find_by_id($entity.keyAttributesNamesAsString(', '))
+
+    def find_all(self):
+        """
+        Finds all entities.
+        :return:  all entities
+        """
+        return self.dao.find_all()
+
+    def find_all_list_items(self, $entity.keyAttributesNamesAsString(', ')):
+        """
+        Finds all entities and select the given id if any
+        :return:  all entities
+        """
+
+#if($entity.hasCompositePrimaryKey())
+        # This entity has a composite primary key : cannot build the key value
+        # TODO : define your own composite key management here
+        items = []
+        #entities = self.dao.find_all()
+        #for entity in entities:
+        #    # Define ListItem attribute
+        #    value = str(THE_COMPOSITE_KEY)
+        #    label = self.get_label(entity)
+        #    selected = self.has_primary_key(entity, $entity.keyAttributesNamesAsString(', '))
+        #    # Create new ListItem object
+        #    item = ListItem(value, label, selected) # item object
+        #    # Append new ListItem object 'as dict' in the list
+        #    items.append(item.__dict__) # item dictionary : {'value': x, 'label': x, 'selected': x}
+        item = ListItem("", "Composite Key : TODO", False) # item object
+        items.append(item.__dict__) # item dictionary : {'value': x, 'label': x, 'selected': x}
+        return items
+#else
+        entities = self.dao.find_all()
+        items = []
+        for entity in entities:
+            # Define ListItem attribute
+            value = str(entity.${entity.keyAttribute.name})
+            label = self.get_label(entity)
+            selected = self.has_primary_key(entity, $entity.keyAttributesNamesAsString(', '))
+            # Create new ListItem object
+            item = ListItem(value, label, selected) # item object
+            # Append new ListItem object 'as dict' in the list
+            items.append(item.__dict__) # item dictionary : {'value': x, 'label': x, 'selected': x}
+            # print(item.__dict__) # for DEBUG
+        return items
+#end
+
+#if( ! $entity.hasCompositePrimaryKey())
+    def get_label(self, entity):
+        """
+        Returns the label to be printed in a List or ComboBox for the given entity
+        """
+        # TODO : customize the label here
+        s = str(entity.${entity.keyAttribute.name}) # Primary Key
+        s = s + " - " # Separator
+        # Text to be printed
+#foreach( $field in $entity.nonKeyAttributes )
+#if( $field.isStringType() )
+        s = s + str(entity.${field.name}) + " "
+#end
+#end
+        return s
+#end
+
+    def has_primary_key(self, entity, $entity.keyAttributesNamesAsString(', ')):
+        """
+        Returns TRUE if the given entity has the given PK value(s)
+        """
+#foreach( $field in $entity.keyAttributes )
+        if str(entity.${field.name}) != str(${field.name}) :
+            return False
+#end
+        return True
+
+    def insert(self, entity):
+        """
+        Insert the given entity in the database
+        :param entity: to be inserted (supposed to have a valid Id/PK )
+        :return: false if not found, entity if found
+        """
+        return self.dao.insert(entity)
+
+    def update(self, entity):
+        """
+        Updates the given entity in the database
+        :param entity: to be updated (supposed to have a valid Id/PK )
+        :return: true if entity updated, false if not found
+        """
+        return self.dao.update(entity)
+
+    def save(self, entity):
+        """
+        Updates or creates the given entity in the database
+        :param entity: to be updated or created (supposed to have a valid Id/PK )
+        :return: json with isNew attribute (True if created) and entity (created or updated)
+        """
+        return self.dao.save(entity)
+
+    def delete_by_id(self, $entity.keyAttributesNamesAsString(', ')):
+        """
+        Deletes an entity using its Id / Primary Key
+        :param $entity.keyAttributesNamesAsString(', '): PK of the entity to delete
+        :return: true if the entity has been deleted, false if not found and not deleted
+        """
+        return self.dao.delete_by_id($entity.keyAttributesNamesAsString(', '))
+
+    def delete(self, entity):
+        """
+        Deletes an entity
+        :param entity: to delete
+        :return: 1 if the entity has been deleted, 0 if not found and not deleted
+        """
+        return self.dao.delete(entity)
+
+    def exists_by_id(self, $entity.keyAttributesNamesAsString(', ')):
+        """
+        Ckeck if an Id / Primary Key is in the entity table
+        :param $entity.keyAttributesNamesAsString(', '): PK to check in database
+        :return: true or false
+        """
+        return self.dao.exists_by_id($entity.keyAttributesNamesAsString(', '))
+
+    def exists(self, entity):
+        """
+        Ckeck if an entity is in the entity table
+        :return: true or false
+        """
+        return self.dao.exists(entity)
+
+    def count_all(self):
+        """
+        Counts all the entity present in the entity table
+        :return: the number of rows in the entity table
+        """
+        return self.dao.count_all()

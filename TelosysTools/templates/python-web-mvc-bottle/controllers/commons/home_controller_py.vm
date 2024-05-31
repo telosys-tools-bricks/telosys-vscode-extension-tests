@@ -1,0 +1,11 @@
+${SHARP} Controller for home page
+${SHARP} Created on 2018-05-29 ( Time 18:20:29 )
+
+from bottle import view, route, template
+
+@route('/')
+@route('/home')
+@view("navigation_bar.tpl")
+def home():
+    body = template('home.tpl', root="templates")
+    return {"body": body}

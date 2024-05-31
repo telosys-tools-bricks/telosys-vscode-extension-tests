@@ -1,0 +1,48 @@
+
+## TEST $linkattr
+
+$linkAttr
+$linkAttrTTT
+$linkattr
+$linkattrxxx
+$linkAttribute
+$linkAttribute_qshdk
+$linkattribute
+$linkattributeXxx
+
+${linkattr} 
+${linkAttr} 
+${linkattribute} 
+${linkAttribute} 
+${ linkattr} ## OK
+${linkattr } ## OK 
+${linkattr  ## OK
+$linkattr} 
+
+$linkattr.linkName  
+$linkattribute.linkName  
+${linkattr.linkName}
+${linkattribute.linkName}
+${ linkattr.linkName  } ## OK
+${linkattr.linkName    ## OK
+${linkattr.linkName   } ## OK
+
+$linkattr.referencedAttribute  
+${ee}${linkattr.referencedAttribute}dqq
+
+$linkattr.referencedAttributeName  
+${linkattr.referencedAttributeName} 
+
+$linkattr.originAttribute   
+${linkattr.originAttribute} 
+
+$linkattr.originAttributeName   
+${linkattr.originAttributeName} 
+
+#foreach( $linkAttribute in $link.attributes )
+    $linkAttribute.originAttributeName references $linkAttribute.referencedAttributeName
+#end
+
+#foreach( $linkattr in $link.attributes )
+    $linkattr.linkName : origin = $linkattr.originAttributeName  referenced = $linkAttribute.referencedAttributeName
+#end

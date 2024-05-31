@@ -1,0 +1,161 @@
+# Bottle controller for entity ${entity.name}
+# Created on $today.date ( Time $today.time )
+
+from bottle import view, request, route, template
+## import datetime
+
+from controllers.commons.util import *
+
+# '$entity.name' entity class 
+from entities.${entity.name}_class import $entity.name 
+# '$entity.name' entity service
+from services.${entity.name}_service import ${entity.name}Service
+${fn.toLowerCase($entity.name)}_service = ${entity.name}Service()
+
+# other services for referenced entities 
+#* 
+#set( $list = "" )
+#foreach( $referencedEntity in $entity.referencedEntityTypes($entity.attributes) )
+#set( $referencedEntityLC = ${fn.toLowerCase($referencedEntity)} )
+# $referencedEntity / $referencedEntityLC
+from services.${referencedEntity}_service import ${referencedEntity}Service
+${referencedEntityLC}_service = ${referencedEntity}Service()
+#if( $list != "" )
+#set( $list = $list + ", " )
+#end
+#set( $list = $list + "list_" + $referencedEntityLC + "=list_" + $referencedEntityLC )
+#end ## end-foreach
+# list : $list
+*# 
+## -----------------
+#set( $list = "" )
+#foreach( $attribute in $entity.attributes )
+#if( $attribute.isFK() )
+#set( $referencedEntity   = $attribute.referencedEntityName)
+#set( $referencedEntityLC = $fn.toLowerCase($attribute.referencedEntityName) )
+# $referencedEntity / $referencedEntityLC
+from services.${referencedEntity}_service import ${referencedEntity}Service
+${referencedEntityLC}_service = ${referencedEntity}Service()
+#if( $list != "" )
+#set( $list = $list + ", " )
+#end
+#set( $list = $list + "list_" + $referencedEntityLC + "=list_" + $referencedEntityLC )
+#end
+#end
+# list : $list
+
+
+${entity.name.toUpperCase()}_FORM_TPL = "${entity.name}_form.tpl"
+${entity.name.toUpperCase()}_LIST_TPL = "${entity.name}_list.tpl"
+
+@route('/${entity.name.toLowerCase()}')
+@view("navigation_bar.tpl")
+def get_all():
+    return print_list()
+
+def print_list(message=""):
+    try:
+        entities = ${entity.name.toLowerCase()}_service.find_all()
+        # return common_controller.get_all(entities, "${entity.name}", "")
+        # return build_list_body(entities, "${entity.name}", "")
+        entities_as_dict = [entity.to_dict() for entity in entities]
+        body = template(${entity.name.toUpperCase()}_LIST_TPL, list=entities_as_dict, message=message)
+        return {"body": body}
+    
+    except Exception as e:
+        return error_msg(e)
+    
+@route('/${entity.name.toLowerCase()}/form')
+@view("navigation_bar.tpl")
+def form_for_create():
+    # references with nothing selected => None
+#* 
+#foreach( $attribute in $entity.nonKeyAttributes )
+#if( $attribute.isFK() )
+#set( $foreign_key = $fn.toLowerCase($attribute.referencedEntityName) )
+    list_${foreign_key} = ${foreign_key}_service.find_all_list_items(None)
+#end
+#end
+*#
+#foreach( $attribute in $entity.attributes )
+#if( $attribute.isFK() )
+#set( $referencedEntityLC = $fn.toLowerCase($attribute.referencedEntityName) )
+    list_${referencedEntityLC} = ${referencedEntityLC}_service.find_all_list_items(None)
+#end
+#end
+    # Form without entity
+    body = template(${entity.name.toUpperCase()}_FORM_TPL, form=FORM_CREATE_MODE, message=""#if($list != ""), ${list}#end)
+    return {"body": body}
+
+@route('/${entity.name.toLowerCase()}/form/$entity.keyAttributesNamesAsString('/', '<', '>')')
+@view("navigation_bar.tpl")
+def form_for_update($entity.keyAttributesNamesAsString(', ')):
+    # Load entity from database
+    entity = ${entity.name.toLowerCase()}_service.find_by_id($entity.keyAttributesNamesAsString(', '))
+    # Print the form 
+    return form_with_entity(entity)
+
+def form_with_entity(entity, message=""):
+    # references with current value selected
+#foreach( $attribute in $entity.attributes )
+#if( $attribute.isFK() )
+#set( $referencedEntityLC = $fn.toLowerCase($attribute.referencedEntityName) )
+    list_${referencedEntityLC} = ${referencedEntityLC}_service.find_all_list_items(entity.${attribute.name})
+#end
+#end
+    prepare_entity_for_view(entity)
+    body = template(${entity.name.toUpperCase()}_FORM_TPL, entity=entity.to_dict(), form=FORM_UPDATE_MODE, message=message#if($list != ""), ${list}#end)
+    return {"body": body}
+
+def prepare_entity_for_view(entity):
+#foreach( $field in $entity.attributes )
+    if entity.${field.name} == None :
+        entity.${field.name} = ""
+#end
+    return
+
+def build_entity(request):
+    entity = ${entity.name}()
+#foreach( $field in $entity.attributes )
+#if( $field.isDateType() || $field.isTimestampType() )
+    entity.${field.name} = get_date(request, '${field.name}')
+#else
+    entity.${field.name} = request.forms.get('${field.name}')
+#end
+#end
+    return entity
+
+@route('/${entity.name.toLowerCase()}/create', method='POST')
+@view("navigation_bar.tpl")
+def create():
+    try:
+        entity = build_entity(request)
+        # Insert in database
+        result = ${entity.name.toLowerCase()}_service.insert(entity)
+        message = create_msg(result, ${entity.name})
+    except Exception as e:
+        message = error_msg(e)
+    return form_with_entity(entity, message)
+
+@route('/${entity.name.toLowerCase()}/update', method='POST')
+@view('navigation_bar.tpl')
+def update():
+    try:
+        entity = build_entity(request)
+        # Update in database
+        result = ${entity.name.toLowerCase()}_service.update(entity)
+        message = update_msg(result)
+    except Exception as e:
+        message = error_msg(e)
+    return form_with_entity(entity, message)
+
+@route('/${entity.name.toLowerCase()}/delete/$entity.keyAttributesNamesAsString('/', '<', '>')', method=['GET', 'POST'])
+@view('navigation_bar.tpl')
+def delete($entity.keyAttributesNamesAsString(', ')):
+    try:
+        # Delete in database
+        result = ${entity.name.toLowerCase()}_service.delete_by_id($entity.keyAttributesNamesAsString(', '))
+        message = delete_msg(result)
+    except Exception as e:
+        message = error_msg(e)
+    return print_list(message)

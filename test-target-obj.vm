@@ -1,0 +1,57 @@
+
+## TEST $target
+
+$target
+$targetXxxYyyy
+$target_aaa
+${target} 
+${ target} ## OK
+${target } ## OK 
+${target  ## OK
+$target} 
+
+$target.entityName     
+${target.entityName     }
+${ target.entityName     } ## OK
+
+$target.file     
+${target.file}
+
+$target.folder      
+${target.folder}
+
+$target.forceEntityName("eee")
+
+$target.forcedEntityName    
+${target.forcedEntityName}
+
+$target.javaPackageFromFolder($srcFolder)  
+${target.javaPackageFromFolder($srcFolder)}
+
+$target.originalFileDefinition     
+${target.originalFileDefinition }
+
+$target.originalFolderDefinition     
+${target.originalFolderDefinition }
+
+$target.outputFileExists()     
+${target.outputFileExists() }
+
+$target.outputFileFullPath     
+${target.outputFileFullPath }
+
+$target.targetName       
+${target.targetName }
+
+$target.template       
+${target.template }
+
+$target.type       
+${target.type }
+
+
+#if ( $target.outputFileExists() ) 
+#end
+
+
+

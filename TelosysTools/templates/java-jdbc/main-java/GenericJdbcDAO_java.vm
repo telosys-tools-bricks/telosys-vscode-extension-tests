@@ -1,0 +1,695 @@
+#parse("include/java_header.vm")
+package org.demo.persistence.impl.jdbc.commons;
+
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+/**
+ * Generic abstract class for basic JDBC DAO
+ * 
+ * @author Telosys Tools
+ *
+ * @param <T>
+ */
+public abstract class GenericJdbcDAO<T> {
+	
+	private final static int INITIAL_POSITION = 1 ;
+	
+	/**
+	 * The DataSource providing the connections
+	 */
+	private final DataSource dataSource;
+	
+	/**
+	 * Constructor
+	 */
+	protected GenericJdbcDAO() {
+		super();
+		this.dataSource = DataSourceProvider.getDataSource() ;
+	}
+	
+	/**
+	 * Returns a new instance of record
+	 * @return
+	 */
+	protected abstract T newInstance() ;
+
+	/**
+	 * Returns the SQL SELECT REQUEST to be used to retrieve the record from the database
+	 * @return
+	 */
+	protected abstract String  getSqlSelect();
+	
+	/**
+	 * Returns the SQL SELECT REQUEST to be used to retrieve all the occurrences
+	 * @return
+	 */
+	protected abstract String  getSqlSelectAll();
+	
+	/**
+	 * Returns the SQL INSERT REQUEST to be used to insert the record in the database
+	 * @return
+	 */
+	protected abstract String  getSqlInsert();
+	
+	/**
+	 * Returns the SQL UPDATE REQUEST to be used to update the record in the database
+	 * @return
+	 */
+	protected abstract String  getSqlUpdate();
+	
+	/**
+	 * Returns the SQL DELETE REQUEST to be used to delete the record from the database
+	 * @return
+	 */
+	protected abstract String  getSqlDelete();
+	
+	/**
+	 * Returns the SQL COUNT REQUEST to be used to check if the record exists in the database
+	 * @return
+	 */
+	protected abstract String  getSqlCount();
+	
+	/**
+	 * Returns the SQL COUNT REQUEST to be used to count all the records present in the database
+	 * @return
+	 */
+	protected abstract String  getSqlCountAll();
+	
+	/**
+	 * Set the primary key value(s) in the given PreparedStatement
+	 * @param ps
+	 * @param i 
+	 * @param record
+	 * @throws SQLException
+	 */
+	protected abstract void setValuesForPrimaryKey(PreparedStatement ps, int i, T record) throws SQLException ;
+	
+	/**
+	 * Set the record values in the given PreparedStatement before SQL INSERT
+	 * @param ps
+	 * @param i
+	 * @param record
+	 * @throws SQLException
+	 */
+	protected abstract void setValuesForInsert(PreparedStatement ps, int i, T record) throws SQLException ; 
+	
+	/**
+	 * Set the record values in the given PreparedStatement before SQL UPDATE
+	 * @param ps
+	 * @param i
+	 * @param record
+	 * @throws SQLException
+	 */
+	protected abstract void setValuesForUpdate(PreparedStatement ps, int i, T record) throws SQLException ; 
+	
+	/**
+	 * Populates the record attributes from the given ResultSet
+	 * @param rs
+	 * @param record
+	 * @return
+	 * @throws SQLException
+	 */
+	protected abstract T populateBean(ResultSet rs, T record) throws SQLException ;
+	
+	/**
+	 * Abstract method used to set the computed value for an auto-incremented key <br>
+	 * This method is supposed to set the key if the record has an auto-incremented key <br>
+	 * or to throw an exception if the record doesn't have an auto-incremented key 
+	 * @param record
+	 * @param id
+	 */
+	protected abstract void setAutoIncrementedKey(T record, long id);	
+	
+	/**
+	 * Returns a connection
+	 * @return
+	 * @throws SQLException
+	 */
+	private Connection getConnection() throws SQLException {
+		return dataSource.getConnection();
+	}
+	
+	/**
+	 * Closes the given connection
+	 * @param conn
+	 */
+	private void closeConnection(Connection conn) {
+		if (conn != null) {
+			try {
+				conn.close();
+			} catch (SQLException e) {}
+		}
+	}
+
+	/**
+	 * Loads the given record from the database using its primary key (SQL SELECT)<br>
+	 * The given record is populated from the ResultSet if found
+	 * @param record
+	 * @return true if found and loaded, false if not found
+	 */
+	protected boolean doSelect(T record) {
+ 
+		boolean result = false ;
+		Connection conn = null;
+ 
+		try {
+			conn = getConnection();
+			PreparedStatement ps = conn.prepareStatement( getSqlSelect() );
+			//--- Set the PRIMARY KEY ( SQL "WHERE ..." )
+			setValuesForPrimaryKey(ps, INITIAL_POSITION, record); 
+			//--- Execute SQL SELECT 
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				populateBean(rs, record);
+				result = true ;
+			}
+			else {
+				result = false ;
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			closeConnection(conn);
+		}
+		return result ;
+	}
+
+	/**
+	 * Returns all the occurrences existing in the database
+	 * @return 
+	 */
+	protected List<T> doSelectAll() {
+		 
+		List<T> list = new LinkedList<T>() ;
+		Connection conn = null;
+ 
+		try {
+			conn = getConnection();
+			PreparedStatement ps = conn.prepareStatement( getSqlSelectAll() );
+			//--- Execute SQL SELECT 
+			ResultSet rs = ps.executeQuery();
+			while ( rs.next() ) {
+				T bean = newInstance(); 
+				populateBean(rs, bean);
+				list.add(bean);
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			closeConnection(conn);
+		}
+		return list ;
+	}
+
+	/**
+	 * Inserts the given record in the database (SQL INSERT)
+	 * @param record
+	 */
+	protected void doInsert(T record) {
+		 
+		Connection conn = null;
+		try {
+			conn = getConnection();
+			PreparedStatement ps = conn.prepareStatement( getSqlInsert() );
+			//--- Call specific method to set the values to be inserted
+			setValuesForInsert(ps, INITIAL_POSITION, record); 
+			//--- Execute SQL INSERT
+			ps.executeUpdate();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			closeConnection(conn);
+		}
+	}	
+    
+	/**
+	 * Inserts the given record in the database (SQL INSERT) with an auto-incremented columns
+	 * @param record
+	 */
+	protected Long doInsertAutoIncr(T record) {
+		Long generatedKey = 0L ;
+		Connection conn = null;
+		try {
+			conn = getConnection();
+			PreparedStatement ps = conn.prepareStatement( getSqlInsert(), PreparedStatement.RETURN_GENERATED_KEYS );
+			//--- Call specific method to set the values to be inserted
+			setValuesForInsert(ps, INITIAL_POSITION, record); 
+			//--- Execute SQL INSERT
+			ps.executeUpdate();
+			//--- Retrieve the generated key 
+			ResultSet rs = ps.getGeneratedKeys();
+			if ( rs.next() ) {
+				generatedKey = rs.getLong(1);
+			}
+			rs.close();
+			//--- End
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			closeConnection(conn);
+		}
+		// update the record with the generated key
+		setAutoIncrementedKey(record, generatedKey);	
+		return generatedKey ;
+	}	
+    
+	/**
+	 * Updates the given record in the database (SQL UPDATE)
+	 * @param record
+	 * @return the JDBC return code (i.e. the row count affected by the UPDATE operation : 0 or 1 )
+	 */
+	protected int doUpdate(T record) {
+		int result = 0 ;
+		Connection conn = null;
+		try {
+			conn = getConnection();
+			PreparedStatement ps = conn.prepareStatement( getSqlUpdate() );
+			//--- Call specific method to set the values to be updated and the primary key
+			setValuesForUpdate(ps, INITIAL_POSITION, record); 
+			//--- Execute SQL UPDATE
+			result = ps.executeUpdate();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			closeConnection(conn);
+		}
+		return result ;
+	}	
+
+	/**
+	 * Deletes the given record in the database (SQL DELETE)
+	 * @param record
+	 * @return the JDBC return code (i.e. the row count affected by the DELETE operation : 0 or 1 )
+	 */
+	protected int doDelete(T record) {
+		int result = 0 ;
+		Connection conn = null;
+ 
+		try {
+			conn = getConnection();
+			PreparedStatement ps = conn.prepareStatement( getSqlDelete() );
+			//--- Set the PRIMARY KEY ( SQL "WHERE ..." )
+			setValuesForPrimaryKey(ps, INITIAL_POSITION, record); 
+			//--- Execute SQL DELETE
+			result = ps.executeUpdate();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			closeConnection(conn);
+		}
+		return result ;
+	}
+	
+	/**
+	 * Checks if the given record exists in the database (SQL SELECT COUNT(*) )
+	 * @param record
+	 * @return
+	 */
+	protected boolean doExists(T record) {
+
+		long result = 0 ;
+		Connection conn = null;
+ 
+		try {
+			conn = getConnection();
+			PreparedStatement ps = conn.prepareStatement( getSqlCount() );
+			//--- Set the PRIMARY KEY ( SQL "WHERE ..." )
+			setValuesForPrimaryKey(ps, INITIAL_POSITION, record); 
+			//--- Execute SQL COUNT 
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				result = rs.getLong(1);
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			closeConnection(conn);
+		}
+		return result > 0 ;
+	}
+
+	/**
+	 * Counts all the occurrences in the table ( SQL SELECT COUNT(*) )
+	 * @return
+	 */
+	protected long doCountAll() {
+
+		long result = 0 ;
+		Connection conn = null;
+		try {
+			conn = getConnection();
+			PreparedStatement ps = conn.prepareStatement( getSqlCountAll() );
+			//--- Execute SQL COUNT (without where clause)
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				result = rs.getLong(1);
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			closeConnection(conn);
+		}
+		return result ;
+	}	
+
+	/**
+	 * Set a value in the PreparedStatement
+	 * @param ps
+	 * @param i
+	 * @param value
+	 * @throws SQLException
+	 */
+	protected void setValue(PreparedStatement ps, int i, String value) throws SQLException {
+		ps.setString(i, value);
+	}
+
+	/**
+	 * Set a value in the PreparedStatement
+	 * @param ps
+	 * @param i
+	 * @param value
+	 * @throws SQLException
+	 */
+	protected void setValue(PreparedStatement ps, int i, Boolean value) throws SQLException {
+		ps.setBoolean(i, value);
+	}
+
+	/**
+	 * Set a value in the PreparedStatement
+	 * @param ps
+	 * @param i
+	 * @param value
+	 * @throws SQLException
+	 */
+	protected void setValue(PreparedStatement ps, int i, java.util.Date value) throws SQLException {
+		if ( value != null ) {
+			ps.setDate(i, new java.sql.Date(value.getTime())); // Convert util.Date to sql.Date
+		}
+		else {
+			ps.setNull(i, java.sql.Types.DATE); 
+		}
+	}
+
+	/**
+	 * Set a value in the PreparedStatement
+	 * @param ps
+	 * @param i
+	 * @param value
+	 * @throws SQLException
+	 */
+	protected void setValue(PreparedStatement ps, int i, java.sql.Date value) throws SQLException {
+		ps.setDate(i, value);
+	}
+
+	/**
+	 * Set a value in the PreparedStatement
+	 * @param ps
+	 * @param i
+	 * @param value
+	 * @throws SQLException
+	 */
+	protected void setValue(PreparedStatement ps, int i, LocalDate value) throws SQLException {
+       	ps.setDate(i, value != null ? java.sql.Date.valueOf(value) : null);
+    }
+	
+	/**
+	 * Set a value in the PreparedStatement
+	 * @param ps
+	 * @param i
+	 * @param value
+	 * @throws SQLException
+	 */
+	protected void setValue(PreparedStatement ps, int i, java.sql.Time value) throws SQLException {
+		ps.setTime(i, value);
+	}
+
+	/**
+	 * Set a value in the PreparedStatement
+	 * @param ps
+	 * @param i
+	 * @param value
+	 * @throws SQLException
+	 */
+	protected void setValue(PreparedStatement ps, int i, LocalTime value) throws SQLException {
+       	ps.setTime(i, value != null ? java.sql.Time.valueOf(value) : null);
+    }
+	
+	/**
+	 * Set a value in the PreparedStatement
+	 * @param ps
+	 * @param i
+	 * @param value
+	 * @throws SQLException
+	 */
+	protected void setValue(PreparedStatement ps, int i, java.sql.Timestamp value) throws SQLException {
+		ps.setTimestamp(i, value);
+	}
+
+	/**
+	 * Set a value in the PreparedStatement
+	 * @param ps
+	 * @param i
+	 * @param value
+	 * @throws SQLException
+	 */
+	protected void setValue(PreparedStatement ps, int i, LocalDateTime  value) throws SQLException {
+       	ps.setTimestamp(i, value != null ? java.sql.Timestamp.valueOf(value) : null);
+    }
+
+	
+	/**
+	 * Set a value in the PreparedStatement
+	 * @param ps
+	 * @param i
+	 * @param value
+	 * @throws SQLException
+	 */
+	protected void setValue(PreparedStatement ps, int i, Byte value) throws SQLException {
+		if ( value != null ) {
+			ps.setByte(i, value.byteValue());
+		}
+		else {
+			ps.setNull(i, java.sql.Types.TINYINT); // JDBC : "TINYINT" => getByte/setByte
+		}
+	}
+
+	/**
+	 * Set a value in the PreparedStatement
+	 * @param ps
+	 * @param i
+	 * @param value
+	 * @throws SQLException
+	 */
+	protected void setValue(PreparedStatement ps, int i, Short value) throws SQLException {
+		if ( value != null ) {
+			ps.setShort(i, value.shortValue());
+		}
+		else {
+			ps.setNull(i, java.sql.Types.SMALLINT);
+		}
+	}
+	
+	/**
+	 * Set a value in the PreparedStatement
+	 * @param ps
+	 * @param i
+	 * @param value
+	 * @throws SQLException
+	 */
+	protected void setValue(PreparedStatement ps, int i, Integer value) throws SQLException {
+		if ( value != null ) {
+			ps.setInt(i, value.intValue());
+		}
+		else {
+			ps.setNull(i, java.sql.Types.INTEGER);
+		}
+	}
+
+	/**
+	 * Set a value in the PreparedStatement
+	 * @param ps
+	 * @param i
+	 * @param value
+	 * @throws SQLException
+	 */
+	protected void setValue(PreparedStatement ps, int i, Long value) throws SQLException {
+		if ( value != null ) {
+			ps.setLong(i, value.longValue());
+		}
+		else {
+			ps.setNull(i, java.sql.Types.BIGINT); // JDBC : "BIGINT" => getLong/setLong
+		}
+	}
+
+	/**
+	 * Set a value in the PreparedStatement
+	 * @param ps
+	 * @param i
+	 * @param value
+	 * @throws SQLException
+	 */
+	protected void setValue(PreparedStatement ps, int i, Float value) throws SQLException {
+		if ( value != null ) {
+			ps.setFloat(i, value.floatValue());
+		}
+		else {
+			ps.setNull(i, java.sql.Types.FLOAT); 
+		}
+	}
+
+	/**
+	 * Set a value in the PreparedStatement
+	 * @param ps
+	 * @param i
+	 * @param value
+	 * @throws SQLException
+	 */
+	protected void setValue(PreparedStatement ps, int i, Double value) throws SQLException {
+		if ( value != null ) {
+			ps.setDouble(i, value.doubleValue());
+		}
+		else {
+			ps.setNull(i, java.sql.Types.DOUBLE); 
+		}
+	}
+
+	/**
+	 * Set a value in the PreparedStatement
+	 * @param ps
+	 * @param i
+	 * @param value
+	 * @throws SQLException
+	 */
+	protected void setValue(PreparedStatement ps, int i, BigDecimal value) throws SQLException {
+		ps.setBigDecimal(i, value );
+	}
+
+	/**
+	 * Set a value in the PreparedStatement
+	 * @param ps
+	 * @param i
+	 * @param value
+	 * @throws SQLException
+	 */
+	protected void setValue(PreparedStatement ps, int i, byte[] value) throws SQLException {
+		ps.setBytes(i, value );
+	}
+
+
+	
+	protected String getString(ResultSet rs, String name) throws SQLException {
+		return rs.getString(name);
+	}
+	
+	protected Byte getByte(ResultSet rs, String name) throws SQLException {
+		byte value = rs.getByte(name); // if the value is SQL NULL, the value returned is 0
+		return rs.wasNull() ? null : value ;
+	}
+	protected byte getbyte(ResultSet rs, String name) throws SQLException {
+		return rs.getByte(name);
+	}
+
+	protected Short getShort(ResultSet rs, String name) throws SQLException {
+		short value = rs.getShort(name); // if the value is SQL NULL, the value returned is 0
+		return rs.wasNull() ? null : value ;
+	}
+	protected short getshort(ResultSet rs, String name) throws SQLException {
+		return rs.getShort(name);
+	}
+
+	protected Integer getInteger(ResultSet rs, String name) throws SQLException {
+		int value = rs.getInt(name); // if the value is SQL NULL, the value returned is 0
+		return rs.wasNull() ? null : value ;
+	}
+	protected int getint(ResultSet rs, String name) throws SQLException {
+		return rs.getInt(name);
+	}
+	
+	protected Long getLong(ResultSet rs, String name) throws SQLException {
+		long value = rs.getLong(name); // if the value is SQL NULL, the value returned is 0
+		return rs.wasNull() ? null : value ;
+	}
+	protected long getlong(ResultSet rs, String name) throws SQLException {
+		return rs.getLong(name);
+	}
+	
+	protected BigDecimal getBigDecimal(ResultSet rs, String name) throws SQLException {
+		return rs.getBigDecimal(name);
+	}
+
+	protected Float getFloat(ResultSet rs, String name) throws SQLException {
+		float value = rs.getFloat(name); // if the value is SQL NULL, the value returned is 0
+		return rs.wasNull() ? null : value ;
+	}
+	protected float getfloat(ResultSet rs, String name) throws SQLException {
+		return rs.getFloat(name);
+	}
+
+	protected Double getDouble(ResultSet rs, String name) throws SQLException {
+		double value = rs.getDouble(name); // if the value is SQL NULL, the value returned is 0
+		return rs.wasNull() ? null : value ;
+	}
+	protected double getdouble(ResultSet rs, String name) throws SQLException {
+		return rs.getDouble(name);
+	}
+
+	protected Boolean getBoolean(ResultSet rs, String name) throws SQLException {
+		boolean value = rs.getBoolean(name); // if the value is SQL NULL, the value returned is false
+		return rs.wasNull() ? null : value ;
+	}
+	protected boolean getboolean(ResultSet rs, String name) throws SQLException {
+		return rs.getBoolean(name);
+	}
+	
+	protected java.sql.Date getDate(ResultSet rs, String name) throws SQLException {
+		return rs.getDate(name);
+	}
+	protected LocalDate getLocalDate(ResultSet rs, String name) throws SQLException {
+		java.sql.Date date = rs.getDate(name);
+		return date != null ? date.toLocalDate() : null;
+	}
+
+	protected java.sql.Time getTime(ResultSet rs, String name) throws SQLException {
+		return rs.getTime(name);
+	}
+	protected LocalTime getLocalTime(ResultSet rs, String name) throws SQLException {
+		java.sql.Time time = rs.getTime(name);
+		return time != null ? time.toLocalTime() : null;
+	}
+
+	protected java.sql.Timestamp getTimestamp(ResultSet rs, String name) throws SQLException {
+		return rs.getTimestamp(name);
+	}
+	protected LocalDateTime getLocalDateTime(ResultSet rs, String name) throws SQLException {
+		java.sql.Timestamp timestamp = rs.getTimestamp(name);
+		return timestamp != null ? timestamp.toLocalDateTime() : null;
+	}
+
+	protected byte[] getBytes(ResultSet rs, String name) throws SQLException {
+		return rs.getBytes(name); // if the value is SQL NULL, the value returned is null
+	}
+
+}

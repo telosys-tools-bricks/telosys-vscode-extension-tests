@@ -1,0 +1,69 @@
+##
+#set( $entityNameForURI = ${entity.name.toLowerCase()} )
+#set( $entityIdForURI = $entity.keyAttributesNamesAsString("/", "{{entity['", "']}}" ) )
+##
+
+<script>
+history.pushState(null, "", '/${entityNameForURI}');
+</script>
+
+<div class="container">
+    <div class="container">
+        <div class="panel-group">
+            <div class="panel panel-info">
+
+<!-- ---------- HEAD : TITLE with BUTTONS [List] and [Create] -->
+<div class="panel-heading">
+  <h4>
+	<span class="glyphicon glyphicon-list"></span>
+	<span class="font-weight-bold">&nbsp; ${entity.name} List</span>
+	<div class="pull-right"> <!-- Buttons -->
+	  <!-- [Create] -->
+      <a href="/${entityNameForURI}/form" title="Create a new ${entity.name.toLowerCase()}">
+        <button type="button" class="btn btn-success "><span class="glyphicon glyphicon-plus"></span> Create</button></a>
+    </div>
+  </h4>
+#*
+  <h3>
+                        <span class="glyphicon glyphicon-list"></span>
+                        ${entity.name} List
+                        <a href="/${entityNameForURI}/form" title="Create a new ${entity.name}">
+                            <button type="button" class="btn btn-success pull-right"><span class="glyphicon glyphicon-plus"></span> Create</button>
+                        </a>
+  </h3>
+*#
+</div>
+
+                <div class="panel-body">
+
+                    <h1></h1>
+                    {{!message}}
+                    <table class="table table-striped table-bordered text-center">
+                        <thead>
+                        <tr>
+#foreach( $field in $entity.attributes )
+                                <td><b>$field.name</b></td>
+#end
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        % for entity in list :
+                        <tr onclick="window.location.href = '/${entityNameForURI}/form/${entityIdForURI}';" style="cursor: pointer">
+#foreach( $field in $entity.attributes )
+                                <td>{{entity['${field.name}']}}</td>
+#end
+                                <td>
+                                    <a href="/${entityNameForURI}/delete/${entityIdForURI}" title="Delete this entity"><span
+                                            class="glyphicon glyphicon-trash"></span></a>
+                                </td>
+                        </tr>
+                        % end
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+
+## TEST $now
+
+$now
+$now
+$nowxxx
+${now} 
+${now} 
+${ now} ## OK
+${now } ## OK 
+${now  ## OK
+$now} 
+
+$now.date    
+${now.date}
+${ now.date    } ## OK
+
+$now.datetime    
+${now.datetime}
+${now.datetime  }
+
+$now.time     
+xxxx${now.time}xxx
+${now.time  }
+
+
+$now.format('yyyy-MM')
+${now.format('yyyy-MM') }
+
+#set ( $var = $now.format('yyyy-MM')) 
+

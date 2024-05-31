@@ -1,0 +1,29 @@
+
+## TEST $generator
+
+## not supposed to be used alone, must call a method
+$generator
+$generatorName
+${a}$generator${b}
+$a$generator$b
+$a${generator}$b
+${ generator} ## OK
+${generator } ## OK 
+${generator  ## OK
+$generator}xxxxx
+${generator}
+$generator.verskqsdlùqsdùl
+
+"lqkjd${aa}qmldk${bb}"
+$generator.name      
+${generator.name}
+${generator.name }
+${ generator.name      } ## OK
+
+$generator.version       
+${generator.version}
+
+$generator.generate($entityName, $outputFile, $outputFolder, $templateFile) )
+$generator.generate(${entityName}, $outputFile, $outputFolder, $templateFile) )
+${generator.generate($entityName, $outputFile, $outputFolder, $templateFile)}
+

@@ -1,0 +1,16 @@
+#*
+<div class="panel-group">
+    <div class="panel panel-{{!mode}}">
+        <div class="panel-heading">
+            <!-- {{mode}} -->
+            <!-- <h5></h5> -->
+            <div class="panel panel-body">
+                {{!message}}
+            </div>
+        </div>
+    </div>
+</div>
+*#
+<div class="alert alert-{{!mode}}" role="alert">
+  {{!message}}
+</div>

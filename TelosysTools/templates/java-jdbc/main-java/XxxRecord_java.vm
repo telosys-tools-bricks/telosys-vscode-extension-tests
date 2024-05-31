@@ -1,0 +1,93 @@
+#parse("/include/init_var_entity.vm")
+#parse("/include/java_header.vm")
+package ${target.javaPackageFromFolder(${SRC})};
+
+import java.io.Serializable;
+
+#foreach( $import in $java.imports($entity.attributes) )
+import $import;
+#end
+
+/**
+ * Database record for entity "${entity.name}" (table "$entity.sqlTableName") <br>
+ * Contains only "wrapper types" (no primitive types) <br>
+ * in order to be usable both for "web form" and for "persistence" <br>
+ * 
+ * @author Telosys
+ *
+ */
+public class ${recordClass} implements Serializable
+{
+    private static final long serialVersionUID = 1L;
+
+#foreach( $attribute in $entity.keyAttributes )
+#if ($attribute.isAutoIncremented())#set($AUTOINC="AutoIncr ")#else #set($AUTOINC="")#end
+## $beanValidation.annotations(4,$attribute)
+## $beanValidation.annotationsForWrapperType(4,$attribute)
+    private $attribute.wrapperType $attribute.name ; // PK ${AUTOINC}db column "$attribute.sqlColumnName"
+#end
+
+#foreach( $attribute in $entity.nonKeyAttributes )
+## $beanValidation.annotations(4,$attribute)
+## $beanValidation.annotationsForWrapperType(4,$attribute)
+    private $attribute.wrapperType $attribute.name ; // db column "$attribute.sqlColumnName"
+#end
+
+    /**
+     * Default constructor
+     */
+    public ${recordClass}() {
+        super();
+    }
+    
+    //----------------------------------------------------------------------
+    // PRIMARY KEY 
+    //----------------------------------------------------------------------
+#foreach( $attribute in $entity.keyAttributes )
+#if ( $attribute.setter )    
+    /**
+     * Set "$attribute.name" attribute value
+     * @param $attribute.name
+     */
+	public void ${attribute.setter}( $attribute.wrapperType $attribute.name ) {
+        this.$attribute.name = $attribute.name ;
+    }
+#end
+#if ( $attribute.getter )    
+    /**
+     * Get "$attribute.name" attribute value
+     * @return the attribute value
+     */
+	public $attribute.wrapperType ${attribute.getter}() {
+        return this.$attribute.name;
+    }
+#end
+
+#end
+    //----------------------------------------------------------------------
+    // OTHER ATTRIBUTES
+    //----------------------------------------------------------------------
+#foreach( $attribute in $entity.nonKeyAttributes )
+#if ( $attribute.setter )
+    /**
+     * Set the "$attribute.name" attribute value
+     * @param $attribute.name
+     */
+    public void ${attribute.setter}( $attribute.wrapperType $attribute.name ) {
+        this.$attribute.name = $attribute.name;
+    }
+#end
+#if ( $attribute.getter )
+    /**
+     * Get the "$attribute.name" attribute value
+     * @return the attribute value
+     */
+    public $attribute.wrapperType ${attribute.getter}() {
+        return this.$attribute.name;
+    }
+#end
+
+#end
+    @Override
+$java.toStringMethod($entity, 4)
+}

@@ -1,0 +1,54 @@
+
+## TEST $values
+
+$values
+$values
+$valuesxxx
+${values} 
+${values} 
+${ values} ## OK
+${values } ## OK 
+${values  ## OK
+$values} 
+#set( $values = $fn.buildValues($entity.attributes, 1) )
+
+$values.allValues     
+${values.allValues }
+${ values.allValues     } ## OK
+
+$values.size()   
+${values.size()}
+${values.size()  }
+
+$values.getValue($attribute.name)
+${values.getValue($attribute.name)}
+
+$values.comparisonStatement("book", $attribute)
+
+$values.toFormattedJSON()
+${values.toFormattedJSON()}
+
+$values.toFormattedJSON($entity.keyAttributes)
+${values.toFormattedJSON($entity.keyAttributes)}
+
+$values.toJSON()
+${values.toJSON()}
+
+$values.toJSON( "${NEWLINE}${TAB}" )
+${values.toJSON( "${NEWLINE}${TAB}" )}
+
+$values.toJSON( $entity.nonKeyAttributes, "${NEWLINE}${TAB}", "${NEWLINE}" )
+
+$values.toJSON($entity.keyAttributes)
+${values.toJSON($entity.keyAttributes) }
+
+$values.toJSON( $entity.nonKeyAttributes, "${NEWLINE}${TAB}" )
+
+$values.toJSON( $entity.nonKeyAttributes, "${NEWLINE}${TAB}", "${NEWLINE}" )
+
+$values.toURI()
+${values.toURI()}
+
+$values.toURI($entity.keyAttributes)
+${values.toURI($entity.keyAttributes)}
+

@@ -1,0 +1,26 @@
+
+## TEST $loader
+
+$loader
+$loader
+$loaderxxx
+${loader} 
+${loader} 
+${ loader} ## OK
+${loader } ## OK 
+${loader  ## OK
+$loader} 
+
+$loader.classesFolder    
+${loader.classesFolder    }
+${ loader.classesFolder    } ## OK
+
+$loader.libFolder    
+${loader.libFolder  }
+
+$loader.uRLs     
+${loader.uRLs  }
+
+#set( $Math = $loader.loadClass("java.lang.Math")
+
+#set( $sb = $loader.newInstance('java.lang.StringBuilder') )

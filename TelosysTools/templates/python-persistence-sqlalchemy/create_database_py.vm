@@ -1,0 +1,43 @@
+####################################################################
+#set( $type = "" )
+####################################################################
+${SHARP} Python class for init the database
+${SHARP} Created on $today.date ( Time $today.time )
+
+from commons.config import database_file
+from commons.database_managing import create_db
+from commons.database_managing import exec_sql
+
+
+if __name__ == '__main__':
+    create_db(database_file)
+
+    exec_sql('''PRAGMA foreign_keys=off;''')
+
+#foreach( $entity in $selectedEntities )
+    exec_sql('''
+            CREATE TABLE ${entity.name}(
+#foreach( $field in $entity.attributes )
+#if( $field.isTemporalType() )
+#set( $type = "DATE" )
+#elseif( $field.isNumberType() )
+#set( $type = "INTEGER" )
+#else
+#set( $type = "VARCHAR" )
+#end
+                ${field.name} $type#if( $field.isAutoIncremented()) AUTO INCREMENT #end#if( $field.isDatabaseNotNull()) NOT NULL#end,    
+#end
+                PRIMARY KEY($entity.keyAttributesNamesAsString(', '))
+#foreach( $field in $entity.nonKeyAttributes )
+#if( $field.isFK() )
+#set( $entity = ${field.referencedEntity} )
+                FOREIGN KEY($field.name) REFERENCES ${field.referencedEntityName}(${entity.keyAttributesNamesAsString('')})
+#end
+#end
+            );
+    ''')
+    print("Table ${entity.name} : created")
+
+#end
+    exec_sql('''PRAGMA foreign_keys=on;''')
+

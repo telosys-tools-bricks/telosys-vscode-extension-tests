@@ -1,0 +1,44 @@
+
+## VARIABLES TESTS
+
+Bla qkdj $aa lq j${bb}dqd${foo.method(ddd)}sdqsd
+
+#assertFalse( $a, "error message")
+#assertTrue ( $b, "q(dq)" )
+#if ( $a == $attr.defaultValue )
+ sd q ${c.qsdk} qlksjdklqj
+#elseif ( $a == "rr" )
+ sd q ${foo.qsdk()} qlksjdklqj
+#else  
+#set( $v2 = "eee" )
+#end
+
+#foreach ( $v in $foo )
+#end
+
+#set( $v = $foo.method(ddd) )
+
+$aaa
+${a12_cf}
+
+$bbb.xy_z12
+${bbb.xy_z12}  
+
+$ccc.aaa()a
+$ccc.aaa("aaa12_lkjs")a
+$ccc.aaa("aaa12_lkjs", 123 )
+$ccc.aaa("aaa12_lkjs", 'qsmlqùdlmùqdl')a
+$ccc.yy(12.34)
+$ccc.yy("ss", 125)
+$ccc.yy("ss", $e.zz(slkj))
+
+aùemalaml${1moqd_mqlsk.qmslkd(s, $a.ss(sss))}mlkemalzke
+
+$aa.ssss(qsdm) 
+
+${eee}  $azaza__122.z(cc, $a.zz, "sss")  qlksdjqskldjdj 
+${aa.zzz(xx, lzù, "", ...,  "", $e.sss() )} 
+
+"lmmd"
+// qls ${aa.lqsld(jjj"dqs")}   djkqs ${qsdk.qlskdj(qlkjd)} ${aa.ss(sss)} qmlsdkqlmdk
+qùsdlmmqdl

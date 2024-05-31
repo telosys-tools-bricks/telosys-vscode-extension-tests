@@ -1,0 +1,196 @@
+#* qmslkdq
+qd
+ lqsjlkdqkd lj qlsdj llkqjs dl
+*#
+
+#* qsmlklmkd *#
+
+## qmskdqlmk
+qsdqsd
+qsdqsd
+#define($aaa) statement #end
+#*
+qsq  mqsk dm
+qsd
+*#
+#foreach($qsq in $qsdqsd)
+
+#end
+## qsdqsdd
+#foreach($attr in $entity.attributes)
+$attr
+$foreach.count
+$foreach.index
+$foreach.hasNext
+$foreach.count
+#end
+
+#if(qsdqsd)
+qsdqsd
+#else
+
+#end
+#if ( $a == $attr.defaultValue $fk.qsdlm $fkpart.qlskd  $fkattr.qkjsdk)
+#elseif ( $a == "rr" )
+#else  
+#end
+
+#foreach ( $attr.defaultValue in $foo  $entity.qslkd $link.lqskjd $model.qsd $fk. $fkpart.qsjdkj $fkAttr.qksdj )
+$foreach.count
+${foreach.count}
+$foreach.index
+${foreach.index}
+$foreach.hasNext
+${foreach.hasNext}
+#if( $foreach.hasNext )
+${attr.defaultValue}
+#end
+
+${foreach.parent.count}
+${foreach.parent.index}
+${foreach.parent.hasNext}
+
+${foreach.topmost.count}
+${foreach.topmost.index}
+${foreach.topmost.hasNext}
+
+#end
+
+#if(qmlsdkqlmdk)
+qdlù
+#else
+mqldk
+#end
+
+#set($qd = qsdd)
+#foreach($ in $)
+
+#end
+
+$fn.quote("ee")
+
+#set( $env.database  = 'rr' )
+
+$attr.isDatabaseNotNull()
+$attr.isByteType()
+$attr.entity   $attr.isByteType()
+$entity.attributes  $entity.attributesCount
+
+$attr.entity $attr.isDateType() $attr.entity  $attr.entity  $attr.name 
+
+#foreach($attr in $entity.attributes)
+$attr
+#end
+
+#foreach($link in $entity.links)
+$link
+#end
+#set( $v = $fn.unquote($a) )
+ mqlkd  mqlk d "qlskdj${v}qdqsdqdqdqsd"
+
+#if ( $fk.isExplicit() $fkpart.qmsldk $link.qsdj $attr.dqkjd  )
+#end
+#set ( )
+#set  ( $aaa = $attribute.defaultValue  )
+  $model 
+  ${model} 
+  $model.databaseId 
+  ${model.databaseId}
+  $model.allEntities
+  ${model.allEntities}
+  ${model.getEntityByClassName(  $entity.context  ) }
+  $model.getEntityByTableName( $entity.context  )
+  ${model.getEntityByTableName( $entity.name )}  
+
+$entity.attributesCount 
+$entity.attributes
+$entity.context 
+${ent.context}
+
+qsdqsd${attribute.defaultValue}qsdqsd  
+$attr.defaultValue
+$fkpart.fkName 
+$fkpart.referencedAttributeName 
+qdqd:${fkpart.referencedAttribute}qsdqsd
+
+#set ( $e = ${fkPart.referencedEntity}  )
+#set ( $e = $fkPart.referencedEntity  )
+#set($var = "ddddd")
+
+mlkqs d ( mlkqs m  ) qsdqsd
+qdqd 
+( qkjsdh   ( qsdjh  ) qsdd )
+qsldqkj${attr.databaseName}qlskdqk 
+
+$link.entity 
+${link.entity}qskdjkqds
+$link.attributesCount 
+$linkAttr.referencedAttribute 
+$linkAttr.referencedAttributeName 
+
+$fk.name ${fk.name} 
+$fk.originEntity $fk.originEntityName 
+${fk.originEntity} ${fk.originEntityName}
+$fk.isExplicit()
+#if( $fk.isExplicit() || ${fk.isComposite()} )
+qsdl  mlq d q  $foo sqmdl qs d
+#elseif(kjd)
+#end
+
+ $toxtxx.msldkl($e )  ddd     ${toto.qslkdjk(s(s"("x "")x)))) s)}  $fn $fk $link
+
+#*  dsmflkslmdfkskdfm
+qsdqsd
+smldkflsdfk  mlsk dfm *#
+
+#macro (sjjs, sss, sss ) 
+#end 
+
+#foreach ( $a in $v.all )
+#end
+
+#if ( $a == "ee" )
+#elseif(hgfhf)
+#end
+
+#foreach($attr in $entity.attributes)
+$attr.name 
+#end
+## 
+#if($a == $b)
+
+#else
+
+#end
+${SHARP} $TAB 
+
+#set ( $a = "aaa")
+$aaa
+${a12_cf}
+
+$bbb.xy_z12
+${bbb.xy_z12}  
+
+$ccc.aaa()a
+$ccc.aaa("aaa12_lkjs")a
+$ccc.aaa("aaa12_lkjs", 123 )
+$ccc.aaa("aaa12_lkjs", 'qsmlqùdlmùqdl')a
+$ccc.yy(12.34)
+$ccc.yy("ss", 125)
+$ccc.yy("ss", $e.zz(slkj))
+
+aùemalaml$1moqd_mqlsk.qmslkd(s, $a.ss(sss))mlkemalzke
+
+$aa.ssss(qsdm) 
+
+${eee}  $azaza__122.z(cc, $a.zz, "sss")  qlksdjqskldjdj 
+${aa.zzz(xx, lzù, "", ...,  "", $e.sss() )} 
+
+"lmmd"
+// qls ${aa.lqsld(jjj"dqs")}   djkqs ${qsdk.qlskdj(qlkjd)} ${aa.ss(sss)} qmlsdkqlmdk
+qùsdlmmqdl
+## qùdlmlm 
+qùsdlmmqdl
+qsdqsd
+#* qksjd  
+*#

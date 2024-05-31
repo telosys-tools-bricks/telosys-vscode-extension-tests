@@ -1,0 +1,7 @@
+// Entity Aaaa
+
+Aaaa {
+  myfield : string ; // field example 
+  foo : date { @Future };
+  
+}

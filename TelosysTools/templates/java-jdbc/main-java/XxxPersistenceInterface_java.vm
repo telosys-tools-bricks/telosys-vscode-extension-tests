@@ -1,0 +1,92 @@
+#parse("/include/init_var_entity.vm")
+#parse("/include/java_header.vm")
+package ${target.javaPackageFromFolder(${SRC})};
+
+import java.util.List;
+
+import ${recordPackage}.${recordClass};
+
+/**
+ * Persistence Interface for ${recordClass}.
+ * 
+ * @author Telosys
+ * 
+ */
+public interface ${entity.name}Persistence { 
+
+	/**
+	 * Tries to find an entity using its Id / Primary Key
+#foreach( $attribute in $entity.keyAttributes )
+	 * @param $attribute.name
+#end
+	 * @return entity
+	 */
+	${recordClass} findById( $fn.argumentsListWithWrapperType($entity.keyAttributes)  ) ;
+
+	/**
+	 * Finds all entities.
+	 * @return all entities
+	 */
+	List<${recordClass}> findAll();
+
+	/**
+	 * Counts all the records present in the database
+	 * @return
+	 */
+	long countAll() ;
+
+	/**
+	 * Saves the given entity in the database (create or update)
+	 * @param entity
+	 * @return entity
+	 */
+	${recordClass} save(${recordClass} entity);
+
+	/**
+	 * Updates the given entity in the database
+	 * @param entity
+	 * @return true if the entity has been updated, false if not found and not updated
+	 */
+##	${recordClass} update(${recordClass} entity);
+	boolean update(${recordClass} entity);
+
+	/**
+	 * Creates the given entity in the database
+	 * @param entity
+	 * @return
+	 */
+	${recordClass} create(${recordClass} entity);
+
+	/**
+	 * Deletes an entity using its Id / Primary Key
+#foreach( $attribute in $entity.keyAttributes )
+	 * @param $attribute.name
+#end
+	 * @return true if the entity has been deleted, false if not found and not deleted
+	 */
+	boolean deleteById( $fn.argumentsListWithWrapperType($entity.keyAttributes) );
+
+	/**
+	 * Deletes a record using the Primary Key stored in the given object
+	 * @param $recordInstance the record to be deleted (supposed to have a valid Id/PK )
+	 * @return true if record has been deleted, false if not found and not deleted
+	 */
+	boolean delete( ${recordClass} $recordInstance );
+
+	/**
+	 * Returns true if a record exists with the given Primary Key 
+#foreach( $attribute in $entity.keyAttributes )
+	 * @param $attribute.name
+#end
+	 * @return
+	 */
+	boolean exists( $fn.argumentsListWithWrapperType($entity.keyAttributes) ) ;
+
+	/**
+	 * Returns true if the given record exists
+	 * @param $recordInstance
+	 * @return
+	 */
+	boolean exists( ${recordClass} $recordInstance ) ;
+
+}

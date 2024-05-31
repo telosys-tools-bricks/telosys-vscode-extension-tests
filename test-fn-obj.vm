@@ -1,0 +1,75 @@
+
+## TEST
+
+$fn
+${fn} 
+${ fn} ## OK
+${fn } ## OK 
+${fn  ## OK
+$fn} 
+
+$fn.argumentsList($entity.attributes)  
+${fn.argumentsList($entity.attributes)}
+
+$fn.argumentsListWithGetter($entity.attributes)  
+${fn.argumentsListWithGetter($entity.attributes)}
+
+$fn.argumentsListWithType($attributes)  
+${fn.argumentsListWithType($attributes)}
+
+$fn.argumentsListWithWrapperType($attributes)  
+${fn.argumentsListWithWrapperType($attributes)}
+
+$fn.backslash($str, 'x')
+
+#set ( $values = $fn.buildIntValues($entity.attributes) )
+#set ( $values = $fn.buildIntValues($entity.attributes, 1000) )
+
+#set( $values = $fn.buildValues($entity.attributes, 1) )
+
+$fn.capitalize($var)
+xx${fn.capitalize($var)}qksldjqls
+$fn.uncapitalize($var)
+
+$fn.className($var)
+
+#set ( $list3 = $fn.concatLists( $list1, $list2 ) )
+
+$fn.escapeXml($var)
+
+#set( $file = $fn.file('dir/foo.txt') )
+
+#set( $file = $fn.fileFromBundle('myfile.csv') )
+
+#set( $file = $fn.fileFromModel('dir/foo.txt') )
+
+#set ( $v = $fn.get('groupId','defaultValue') )
+
+#if ( $fn.isDefined('xxx') ) xx #end
+
+#if ( $fn.isBlank($var) ) xx #end
+#if ( $fn.isNotBlank($var) ) xx #end
+
+#if ( $fn.isVoid($list) ) xx #end
+#if ( $fn.isNotVoid($list) ) xx #end
+
+#set ( $v = $fn.join( $myList, "," ) )
+
+#set ( $v = $fn.joinWithPrefixSuffix( $myList, ";", "[", "]" ) )
+
+$fn.quote($s)
+$fn.unquote($s)
+
+$fn.replaceInList($list, 'b', 'BBB')##
+
+$fn.size( $entity.attributes )
+
+$fn.tab(12)
+#set( $mylist = $fn.toList( $mystring.split(",") ) )
+
+$fn.toLowerCase($s)
+$fn.toUpperCase($s)
+
+$fn.trimAll($list)
+
+

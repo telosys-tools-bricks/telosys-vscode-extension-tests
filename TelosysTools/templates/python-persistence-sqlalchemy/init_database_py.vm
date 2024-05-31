@@ -1,0 +1,73 @@
+####################################################################
+#set( $list = "" )
+#set( $value = "" )
+#set( $list_value = "" )
+#set( $cpt = 0 )
+#set( $cpt_pk = 0 )
+####################################################################
+${SHARP} Python class for init the database for tests
+${SHARP} Created on $today.date ( Time $today.time )
+
+from commons.database_managing import exec_sql
+
+
+if __name__ == '__main__':
+
+    exec_sql('''PRAGMA foreign_keys=off;''')
+
+#foreach( $entity in $selectedEntities )
+#if( ! $entity.hasCompositePrimaryKey() )
+#set( $cpt = 0 )
+#set( $cpt_pk = 0 )
+#foreach( $field in $entity.attributes )
+#set( $cpt = $cpt + 1 )
+#end
+    exec_sql('''
+#set( $list = "" )
+#set( $list_value = "" )  
+#foreach( $field in $entity.attributes )
+#if( $foreach.count < $cpt )
+#set( $list = $list + $field.name + ", ")
+#else
+#set( $list = $list + $field.name)
+#end
+#end
+#foreach( $attribute in $entity.keyAttributes )
+#set( $cpt_pk = $cpt_pk + 1 )
+#if( $attribute.isNumberType() )
+#set( $value = 100 )
+#else
+#set( $value = "'AAA'" )
+#end
+#set( $list_value = $list_value + $value + ", ") 
+#end
+#set( $cpt = $cpt - $cpt_pk )
+#foreach( $attribute in $entity.nonKeyAttributes )
+#if($attribute.isFK())
+#if( $attribute.isNumberType())
+#set( $value = 100 )	
+#else
+#set( $value = "'AAA'" )
+#end
+#elseif( $attribute.isTemporalType())
+#set( $value = "'1011-11-11'" )
+#elseif( $attribute.isNumberType() )
+#set( $value = 1111111 )
+#else
+#set( $value = "'AAAAAAAAA'")
+#end
+#if( $foreach.count < $cpt )
+#set( $list_value = $list_value + $value + ", ") 
+#else
+#set( $list_value = $list_value + $value) 
+#end 
+#end
+            INSERT INTO ${entity.name}($list)
+            VALUES($list_value);
+    ''')
+    print("Table ${entity.name} : innitialized")
+
+#end
+#end
+    exec_sql('''PRAGMA foreign_keys=on;''')
+

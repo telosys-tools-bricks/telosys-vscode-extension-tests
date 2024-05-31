@@ -1,0 +1,44 @@
+
+## TEST $env
+
+$env
+$env
+$envxxx
+${env} 
+${env} 
+${ env} ## OK
+${env } ## OK 
+${env  ## OK
+$env} 
+
+$env.collectionType   
+${env.collectionType   }
+${ env.collectionType   } ## OK
+
+$env.database   
+${env.database }
+
+$env.databaseConvFile    
+${env.databaseConvFile }
+
+$env.entityClassNamePrefix  
+${env.entityClassNamePrefix}
+
+$env.entityClassNameSuffix
+${env.entityClassNameSuffix}
+
+$env.language    
+${env.language }
+
+$env.sql    
+${env.sql }
+
+$env.typeWithNullableMark    
+${env.typeWithNullableMark }
+
+#set ( $env.collectionType = 'java.util.Set' ) 
+#set ( $env.database = 'mysql' )
+#set ( $env.databaseConvFile = $fn.fileFromBundle('mydb.properties') )
+#set ( $env.language = 'PHP' )
+#set( $sql = $env.sql )
+#set ( $env.typeWithNullableMark = false )

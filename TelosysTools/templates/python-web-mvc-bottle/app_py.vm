@@ -1,0 +1,78 @@
+${SHARP} Python entry point to run the web app
+${SHARP} Created on $today.date ( Time $today.time )
+
+from bottle import route, view, template
+
+#foreach( $entity in $selectedEntities )
+from controllers.${entity.name}_controller import *
+#end
+
+@route('/static/<filename:path>')
+def static(filename):
+    '''
+    Route definition to serve static files
+    '''
+    return bottle.static_file(filename, root='./static')
+
+@route('/')
+@view("navigation_bar.tpl")
+def home():
+    '''
+    Route definition to serve the front "index"/"home" page
+    '''
+    body = template('home.tpl')
+    return {"body": body}
+
+print('---')
+if __name__ == "__main__":
+    '''
+    No specific WSGI web server
+    NB : for tests only ( for real usage use a real WSGI server )
+    '''
+    web_server_name = None
+
+    '''
+    'waitress' web server ( installation : pip install waitress ) ( pure Python )
+    Tested with 'waitress 1.1.0'
+    '''
+    # web_server_name = 'waitress'
+
+    '''
+    'paste' web server ( installation : pip install paste ) ( pure Python )
+    Tested with 'paste 2.0.3'
+    '''
+    # web_server_name = 'paste'
+     
+    '''
+    'cherrypy' web server ( installation : pip install cherrypy==8.9.1 ) ( pure Python )
+    Tested with 'cherrypy 8.9.1' (NB : since v 9.0.0  cherrypy.wsgiserver moved to the cheroot 5.0 project )
+    '''
+    # web_server_name = 'cherrypy'
+
+    '''
+    'bjoern' web server ( installation : pip install bjoern ) ( requires C compiler )
+    Not tested 
+    '''
+    # web_server_name = 'bjoern'
+    
+    #--------------------------------------------------------------
+    # Launches with default or specific WSGI Server
+    #--------------------------------------------------------------
+    if web_server_name is None:
+        print('MAIN : Running with default basic bottle server...')
+        bottle.run(host='localhost', port=3000)
+    else:
+        print("MAIN : Running with '" + web_server_name +"' web server...")
+        bottle.run(host='localhost', port=3000, server=web_server_name)
+
+else :
+    '''
+    'app' variable declaration for external WSGI server 
+    
+    Tested with 'waitress 1.1.0', example : 
+        pip install waitress 
+        waitress-serve  --listen=127.0.0.1:8080  app:app
+        ( 'app' object in 'app.py' module )
+    '''
+    print("NOT MAIN : Initializing 'app' for external WSGI server...")
+    app = bottle.default_app()

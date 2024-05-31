@@ -1,0 +1,196 @@
+
+## TEST $link
+
+$link
+$linkmqlsdk
+${link} 
+${link}xxx 
+${ link}
+${link } 
+${link  
+$link} 
+
+#foreach( $link in $entity.links )
+private $link.formattedFieldType(10) $link.formattedFieldName(12);
+#end
+
+##-- Single property
+
+$link.attributesCount 
+link.attributesCountWWWW
+${link.attributesCount}
+${ link.attributesCount } 
+${link.attributesCount   
+${link.attributesCount } 
+
+$link.attributes
+$link.attributes 
+xx${link.attributes }xxxx
+
+$link.cardinality  
+xxx$link.cardinality  
+xx${link.cardinality}xxxx
+
+$link.cascade   
+xx${link.cascade}xxxx
+
+$link.entity     
+${link.entity }
+
+$link.fetch      
+${link.fetch }
+
+$link.fieldName       
+${link.fieldName}
+
+$link.fieldType       
+${link.fieldType}
+
+$link.getter       
+${link.getter}
+
+$link.insertable       
+${link.insertable}
+
+$link.joinEntityName       
+${link.joinEntityName }
+
+$link.joinEntity       
+${link.joinEntity }
+
+$link.mappedBy       
+${link.mappedBy }
+
+$link.optional       
+${link.optional }
+
+$link.setter       
+${link.setter }
+
+$link.targetEntityFullType       
+${link.targetEntityFullType }
+
+$link.targetEntityName       
+${link.targetEntityName }
+
+$link.targetEntitySimpleType       
+${link.targetEntitySimpleType }
+
+$link.targetEntity       
+${link.targetEntity }
+
+$link.updatable       
+${link.updatable }
+
+$link.xxxxxx       
+${link.zzzzzz}
+
+##-- Function without parameter
+$link.hasAttributeInPrimaryKey() 
+${link.hasAttributeInPrimaryKey()} 
+
+$link.hasJoinEntity()
+${link.hasJoinEntity()}
+
+$link.hasMappedBy() 
+${link.hasMappedBy()} 
+
+$link.isCardinalityManyToMany()
+${link.isCardinalityManyToMany()}
+
+$link.isCardinalityManyToOne()
+${link.isCardinalityManyToOne()}
+
+$link.isCardinalityOneToMany()
+${link.isCardinalityOneToMany()}
+
+$link.isCardinalityOneToOne()
+${link.isCardinalityOneToOne()}
+
+$link.isCardinalityToMany()
+${link.isCardinalityToMany()}
+
+$link.isCardinalityToOne()
+${link.isCardinalityToOne()}
+
+$link.isCascadeALL()
+${link.isCascadeALL()}
+
+$link.isCascadeMERGE()
+${link.isCascadeMERGE()}
+
+${link.isCascadePERSIST()}
+#if ( $link.isCascadePERSIST() )
+msldk
+#end
+
+$link.isCascadeREFRESH()
+${link.isCascadeREFRESH()}
+
+$link.isCascadeREMOVE()
+${link.isCascadeREMOVE()}
+
+$link.isCollectionType()
+${link.isCollectionType()}
+
+$link.isEmbedded()
+${link.isEmbedded()}
+
+$link.isFetchDEFAULT()
+${link.isFetchDEFAULT()}
+
+$link.isFetchEAGER()
+${link.isFetchEAGER()}
+
+$link.isFetchLAZY()
+${link.isFetchLAZY()}
+
+$link.isOptionalFalse()
+${link.isOptionalFalse()}
+
+$link.isOptionalTrue()
+${link.isOptionalTrue()}
+
+$link.isOptionalUndefined()
+${link.isOptionalUndefined()}
+
+$link.isOrphanRemoval()
+${link.isOrphanRemoval()}
+
+$link.isOwningSide()
+${link.isOwningSide()}
+
+$link.isTransient()
+${link.isTransient()}
+
+##-- Function with parameter(s)
+$link.formattedFieldName(10)
+${link.formattedFieldName(12)}
+
+$link.formattedFieldType(8)
+${link.formattedFieldType(8)}
+
+$link.hasTag("ee")
+${link.hasTag("rrr")}
+
+$link.insertableIs(true)
+${link.insertableIs(false)}
+
+$link.tagValue("foo")
+${link.tagValue("foo", "zz")}
+
+$link.tagValueAsBoolean("foo", true)
+${link.tagValueAsBoolean("foo", false)}
+
+$link.tagValueAsInt("foo", 1)
+${link.tagValueAsInt("foo", 456)}
+
+$link.updatableIs( true)
+${link.updatableIs(false )}
+
+$link.usesAttribute($attrib)
+${link.usesAttribute($attrib)}
+
+#set( $a2 = $link.tagValue("foo", "zz") )
+Blabla${link.tagValue("foo")}Blabla
+

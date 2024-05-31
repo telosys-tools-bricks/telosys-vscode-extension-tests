@@ -1,0 +1,98 @@
+
+## TEST $model
+
+$model
+$modelxxx
+${model} 
+${ model} ## OK
+${model } ## OK 
+${model  ## OK
+$model} 
+
+$model.allEntities
+${model.allEntities}
+${ model.allEntities} ## OK
+${model.allEntities  ## OK
+${model.allEntities } ## OK
+
+dsd   $model.databaseId 
+sdsd${model.databaseId }qsd ## OK
+xxx${model.databaseId}xxxx
+xxx${model.databaseId }xx${xx}x ## OK
+
+$model.databaseName 
+${model.databaseName } ## OK
+
+$model.databaseType 
+${model.databaseType}
+
+$model.description  
+${model.description}
+
+$model.folderName  
+${model.folderName}
+${model.folderName } ## OK
+${ model.folderName} ## OK
+
+x $model.getEntityByClassName($entity.name, ")")
+xx${model.getEntityByClassName($entity.name )}xxx
+## expected errors :
+$model.getEntityByClassName $entity.name) ## OK
+$model.getEntityByClassName ($entity.name) ## OK
+${model.getEntityByClassName $entity.name )} ## OK
+
+x $model.getEntityByTableName( $entity.context ) xxx
+x $model.getEntityByTableName( $var ) xxx
+xx${model.getEntityByTableName( $entity.name  )}xxxx
+xx${model.getEntityByTableName( $var )}xxxx
+## expected errors :
+$model.getEntityByTableName( $entity.context  xsxs ## OK
+$model.getEntityByTableName $entity.context) xsxs  ## OK 
+$model .getEntityByTableName( $entity.context ) xsx ## OK
+$model. getEntityByTableName( $entity.context ) xsx ## OK
+$model.getEntityByTableName ( ${entity.context} ) sxsx  ## OK
+${model.getEntityByTableName( $entity.name  )}   xyz  ## OK   
+${model.getEntityByTableName( ${entity}    }  xyz  ## OK  
+${model.getEntityByTableName $entity.name  )}  xyz   ## OK
+
+( jhqsgd "(" jhd ) )
+
+$model.hasEntityWithClassName( $aaa )
+${model.hasEntityWithClassName( "dkkdk" )}  
+$model.hasEntityWithClassName( $aaa )
+
+$model.hasEntityWithTableName( $aaa )
+${model.hasEntityWithTableName( "dkkdk" )}  
+
+$model.name  
+${model.name}
+${model.name 
+${ model.name}
+
+$model.numberOfEntities   
+${model.numberOfEntities}
+${model.numberOfEntities }
+${ model.numberOfEntities}
+
+$model.title    
+${model.title}
+${model.title }
+${ model.title}
+
+$model.type     
+${model.type}
+${model.type }
+${ model.type}
+
+$model.version     
+${model.version}
+${model.version }
+${ model.version}
+
+
+#assertFalse( $model.hasEntityWithClassName( $aaa ), "error message")
+#assertFalse( $model.hasEntityWithClassName("dkdk"), "dqdd qdqd qsd" ) 
+
+#foreach ( $entity in $model.allEntities ) 
+qlskjddkq 
+#end

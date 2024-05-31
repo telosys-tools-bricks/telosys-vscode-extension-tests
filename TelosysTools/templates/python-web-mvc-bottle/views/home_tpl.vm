@@ -1,0 +1,21 @@
+
+<div class="container">
+    <div class="container">
+        <div class="panel-group">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                   <h4><span class="glyphicon glyphicon-home"></span>&nbsp; Home</h4>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+#foreach( $entity in $selectedEntities )
+                        <li class = "list-group-item list-group-item-action">
+                            <a href="/${entity.name.toLowerCase()}">${entity.name}</a>
+                        </li>
+#end
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

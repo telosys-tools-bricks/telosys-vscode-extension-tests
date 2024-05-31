@@ -1,0 +1,33 @@
+
+## TEST $project
+
+$project
+$project
+$projectxxx
+${project} 
+${project} 
+${ project} ## OK
+${project } ## OK 
+${project  ## OK
+$project} 
+
+$project.allVariables    
+${project.allVariables    }
+${ project.allVariables    } ## OK
+
+$project.locationFullPath    
+${project.locationFullPath  }
+
+$project.modelsFolderFullPath     
+${project.modelsFolderFullPath  }
+
+$project.specificVariables   
+${project.specificVariables }
+
+$project.templatesFolderFullPath 
+${project.templatesFolderFullPath }
+
+#foreach( $var in $project.allVariables )
+    $var.name = $var.value
+#end
+

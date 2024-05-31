@@ -1,0 +1,334 @@
+
+## TEST $attribute
+
+#foreach( $attribute in $entity.attributes )
+    $attribute.name : $attribute.type
+#end
+
+#foreach( $attr in $entity.attributes )
+    $attr.name : $attr.type
+#end
+
+$attribute
+${attribute}
+$attributexxx
+$attribute.databaseComment
+zzz${attribute}xxx 
+${ attribute}
+${attribute } 
+${attribute  
+$attribute} 
+
+$attrib
+$attribwwww
+$attrib.databaseComment
+${attrib}
+
+$attr
+$attr_ydydy
+$attr.databaseComment
+${attr}
+
+##-- Single property
+
+$attribute.databaseComment 
+$attrib.databaseComment 
+$attr.databaseComment 
+$attribute.databaseCommentXXX
+${attribute.databaseComment}
+${ attribute.databaseComment } 
+${attribute.databaseComment   
+${attribute.databaseComment } 
+
+$attribute.databaseDefaultValueXxxx
+$attribute.databaseDefaultValue 
+xx${attribute.databaseDefaultValue }xxxx
+
+$attribute.databaseName  
+xxx$attribute.databaseName  
+xx${attribute.databaseName}xxxx
+
+$attribute.databaseSize   
+xxx$attribute.databaseSize   
+xx${attribute.databaseSize }xxxx
+
+$attrib.databaseType    
+xx${attrib.databaseType}xxxx
+
+$attrib.defaultValue    
+${attrib.defaultValue }
+
+$attr.entity     
+${attr.entity }
+
+$attrib.fkParts      
+${attrib.fkParts }
+
+$attribute.fkPartsCount       
+${attribute.fkPartsCount }
+
+$attribute.fullType       
+${attribute.fullType }
+
+
+$attribute.generatedValueAllocationSize         
+${attribute.generatedValueAllocationSize }
+
+$attribute.generatedValueInitialValue         
+${attribute.generatedValueInitialValue }
+
+$attribute.generatedValueSequenceName         
+${attribute.generatedValueSequenceName }
+
+$attribute.generatedValueStrategy         
+${attribute.generatedValueStrategy }
+
+$attribute.generatedValueTablePkValue         
+${attribute.generatedValueTablePkValue }
+
+$attribute.getter         
+${attribute.getter }
+
+$attribute.getterWithGetPrefix          
+${attribute.getterWithGetPrefix }
+
+$attribute.ini          
+${attribute.ini }
+
+$attribute.initialValue  
+${attribute.initialValue }
+
+$attribute.inputType   
+${attribute.inputType }
+
+$attribute.insertable    
+${attribute.insertable }
+
+$attribute.label    
+${attribute.label }
+
+$attribute.maxLength    
+${attribute.maxLength }
+
+$attribute.maxValue     
+${attribute.maxValue }
+
+$attribute.minLength     
+${attribute.minLength }
+
+$attribute.minValue      
+${attribute.minValue }
+
+$attribute.name       
+${attribute.name }
+
+$attribute.neutralType        
+${attribute.neutralType  }
+
+$attribute.pattern        
+${attribute.pattern }
+
+$attribute.referencedEntity         
+${attribute.referencedEntity }
+
+$attribute.referencedEntityName          
+${attribute.referencedEntityName }
+
+$attribute.setter           
+${attribute.setter }
+
+$attribute.simpleType            
+${attribute.simpleType }
+
+$attribute.size            
+${attribute.size }
+
+$attribute.sizeAsDecimal         
+${attribute.sizeAsDecimal }
+
+$attribute.sqlColumnConstraints              
+${attribute.sqlColumnConstraints }
+
+$attribute.sqlColumnName          
+${attribute.sqlColumnName }
+
+$attribute.sqlColumnType          
+${attribute.sqlColumnType }
+
+$attribute.type          
+${attribute.type }
+
+$attribute.updatable          
+${attribute.updatable }
+
+$attribute.wrapperType          
+${attribute.wrapperType }
+
+##-- Function without parameter
+$attribute.hasDatabaseComment() 
+${attribute.hasDatabaseComment()} 
+
+$attribute.hasDatabaseDefaultValue()
+${attribute.hasDatabaseDefaultValue()}
+
+$attribute.hasDatabaseName() 
+${attribute.hasDatabaseName()} 
+
+$attribute.hasDatabaseType()
+${attribute.hasDatabaseType()}
+
+$attribute.hasDateFutureValidation()
+${attribute.hasDateFutureValidation()}
+
+$attribute.hasDatePastValidation()
+${attribute.hasDatePastValidation()}
+
+$attribute.hasDefaultValue()
+${attribute.hasDefaultValue()}
+
+$attribute.hasGeneratedValueAllocationSize()
+${attribute.hasGeneratedValueAllocationSize()}
+
+$attribute.hasGeneratedValueInitialValue()
+${attribute.hasGeneratedValueInitialValue()}
+
+$attribute.hasGeneratedValueSequenceName()
+${attribute.hasGeneratedValueSequenceName()}
+
+$attribute.hasGeneratedValueTablePkValue()
+${attribute.hasGeneratedValueTablePkValue()}
+
+${attribute.hasInitialValue()}
+#if ( $attribute.hasInitialValue() )
+msldk
+#end
+
+$attribute.hasInputType()
+${attribute.hasInputType()}
+
+$attribute.hasLabel()
+${attribute.hasLabel()}
+
+$attribute.isAutoIncremented()
+${attribute.isAutoIncremented()}
+
+$attribute.isBinaryType()
+${attribute.isBinaryType()}
+
+$attribute.isBooleanType()
+${attribute.isBooleanType()}
+
+$attribute.isByteType()
+${attribute.isByteType()}
+
+$attribute.isDatabaseNotNull()
+${attribute.isDatabaseNotNull()}
+
+$attribute.isDateType()
+${attribute.isDateType()}
+
+$attribute.isDecimalType()
+${attribute.isDecimalType()}
+
+$attribute.isDoubleType()
+${attribute.isDoubleType()}
+
+$attribute.isFK()
+${attribute.isFK()}
+
+$attribute.isFKComposite()
+${attribute.isFKComposite()}
+
+$attribute.isFKSimple()
+${attribute.isFKSimple()}
+
+$attribute.isFloatType()
+${attribute.isFloatType()}
+
+$attribute.isGeneratedValue()
+${attribute.isGeneratedValue()}
+
+$attribute.isIntegerType()
+${attribute.isIntegerType()}
+
+$attribute.isKeyElement()
+${attribute.isKeyElement()}
+
+$attribute.isLongText()
+${attribute.isLongText()}
+
+$attribute.isLongType()
+${attribute.isLongType()}
+
+$attribute.isNotBlank()
+${attribute.isNotBlank()}
+
+$attribute.isNotEmpty()
+${attribute.isNotEmpty()}
+
+$attribute.isNotNull()
+${attribute.isNotNull()}
+
+$attribute.isNumberType()
+${attribute.isNumberType()}
+
+$attribute.isPrimitiveType()
+${attribute.isPrimitiveType()}
+
+$attribute.isShortType()
+${attribute.isShortType()}
+
+$attribute.isStringType()
+${attribute.isStringType()}
+
+$attribute.isTemporalType()
+${attribute.isTemporalType()}
+
+$attribute.isTimeType()
+${attribute.isTimeType()}
+
+$attribute.isTimestampType()
+${attribute.isTimestampType()}
+
+$attribute.isTransient()
+${attribute.isTransient()}
+
+$attribute.isUnique()
+${attribute.isUnique()}
+
+##-- Function with parameter(s)
+$attribute.formattedName(10)
+${attribute.formattedName(12)}
+
+$attribute.formattedType(8)
+${attribute.formattedType(8)}
+
+$attribute.formattedWrapperType(8)
+${attribute.formattedWrapperType(8)}
+
+$attribute.hasGeneratedValueStrategy(SEQUENCE)
+${attribute.hasGeneratedValueStrategy(AUTO)}
+
+$attribute.hasTag("ee")
+${attribute.hasTag("rrr")}
+
+$attribute.insertableIs(true)
+${attribute.insertableIs(false)}
+
+$attribute.tagValue("foo")
+${attribute.tagValue("foo", "zz")}
+
+$attribute.tagValueAsBoolean("foo", true)
+${attribute.tagValueAsBoolean("foo", false)}
+
+$attribute.tagValueAsInt("foo", 1)
+${attribute.tagValueAsInt("foo", 456)}
+
+$attribute.updatableIs( true)
+${attribute.updatableIs(false )}
+
+#set( $a2 = $attribute.tagValue("foo", "zz") )
+Blabla${attribute.formattedName(10)}Blabla
+
+
+

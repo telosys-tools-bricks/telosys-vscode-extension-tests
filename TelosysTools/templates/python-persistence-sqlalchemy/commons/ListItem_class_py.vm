@@ -1,0 +1,11 @@
+
+
+class ListItem(object):
+
+    def __init__(self, value, label, selected=False):
+        """
+        Constructor
+        """
+        self.value    = value
+        self.label    = label
+        self.selected = selected

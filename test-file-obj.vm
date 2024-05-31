@@ -1,0 +1,62 @@
+
+## TEST $file
+
+#set( $file   = $fn.file('dir/foo.txt') )
+#set( ${file} = $fn.fileFromBundle("foo.txt") )
+#set( $file   = $fn.fileFromModel('myfile.csv') )
+
+$file
+$file
+$filexxx
+${file} 
+${file} 
+${ file} ## OK
+${file } ## OK 
+${file  ## OK
+$file} 
+
+$file.absolutePath    
+${file.absolutePath   }
+${ file.absolutePath    } ## OK
+
+$file.canonicalPath    
+${file.canonicalPath  }
+
+$file.exists()     
+${file.exists()  }
+#if ( $file.exists() ) sss #end
+
+$file.isDirectory()     
+#if ( $file.isDirectory() ) sss #end
+
+$file.isFile()     
+#if ( $file.isFile() ) sss #end
+
+$file.isHidden()     
+#if ( $file.isHidden() ) sss #end
+
+$file.length     
+${file.length   }
+
+#set($content = $file.loadContent() )
+#set($content = $file.loadContent(3) )
+
+#foreach ( $line in $file.loadLines() )
+line : $line
+#end
+#foreach ( $line in $file.loadLines(100) )
+line : $line
+#end
+
+#set( $csv = $file.loadValues(";") )
+#set( $csv = $file.loadValues(";", 20) )
+
+$file.name 
+${file.name  }
+
+$file.parent
+${file.parent  }
+
+$file.path
+${file.path  }
+$file.pathxx

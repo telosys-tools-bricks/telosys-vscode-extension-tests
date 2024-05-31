@@ -1,0 +1,17 @@
+
+## TEST 
+
+$factory
+${factory} 
+
+#set( $var = $factory.newBigDecimal(12.4) )
+#set( $var = $factory.newBigDecimal("20") )
+
+#set( $var = $factory.newBigInteger(123) )
+#set( $var = $factory.newBigInteger("1234") )
+
+#set( $jdbc = $factory.newJdbc($entity) )
+
+#set( $sql = $factory.newSql('PostgreSQL') )
+#set( $sql = $factory.newSql('PostgreSQL', $fn.fileFromBundle('postgresql.properties') ) )
+

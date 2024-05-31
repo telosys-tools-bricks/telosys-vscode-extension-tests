@@ -1,0 +1,37 @@
+
+## TEST $fkpart
+
+$fkpart
+$fkpartxxx
+$fkPart
+$fkPart_xx
+${fkpart} 
+${fkPart} 
+${ fkpart} ## OK
+${fkpart } ## OK 
+${fkpart  ## OK
+$fkpart} 
+
+$fkpart.fkName 
+${fkpart.fkName }
+${ fkpart.fkName } ## OK
+${fkpart.fkName   ## OK
+${fkpart.fkName  } ## OK
+
+dsd   $fkpart.referencedAttribute  
+sdsd${fkpart.referencedAttribute  }qsd ## OK
+xxx${fkpart.referencedAttribute }xxxx
+xxx${fkpart.referencedAttribute  }xx${xx}x ## OK
+
+$fkpart.referencedAttributeName  
+${fkpart.referencedAttributeName  } ## OK
+
+$fkpart.referencedEntity  
+${fkpart.referencedEntity }
+
+$fkpart.referencedEntityName   
+${fkpart.referencedEntityName}
+
+#foreach( $fkPart in $attribute.fkParts )
+    $fkPart.fkName : $fkPart.referencedEntityName / $fkPart.referencedAttributeName
+#end

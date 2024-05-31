@@ -1,0 +1,55 @@
+${SHARP} Controllers utility functions
+${SHARP} Created on $today.date ( Time $today.time )
+
+import datetime
+import bottle
+
+# ----------------------------------------------------------------------------------------------
+# CONST 
+FORM_CREATE_MODE = "Create"
+FORM_UPDATE_MODE = "Update"
+# ----------------------------------------------------------------------------------------------
+
+def get_date(request, fieldName):
+    date_iso = request.forms.get(fieldName)
+    if date_iso != "" and date_iso != None :
+        return datetime.datetime.strptime(date_iso, "%Y-%m-%d")
+    else:
+        return None
+# ----------------------------------------------------------------------------------------------
+
+def message(msg, mode):
+    return bottle.template('message.tpl', message=msg, mode=mode)
+
+# ----------------------------------------------------------------------------------------------
+def error_msg(exception):
+    return message(exception, "danger")
+    
+def create_msg(result, entity_class):
+    if result:
+        if type(result) == entity_class:
+            return message("Created", "success")
+        else:
+            return message(result, "danger")
+    else:
+        return message("Already in database", "danger")
+
+
+def update_msg(result):
+    if result:
+        if type(result) == int and result > 0:
+            return message("Updated", "success")
+        else:
+            return message(result, "danger")
+    else:
+        return message("Entity not found", "danger")
+    
+
+def delete_msg(result):
+    if result:
+        if type(result) == int and result > 0:
+            return message("Deleted", "success")
+        else:
+            return message(result, "danger")
+    else:
+        return message("Bad request", "danger")

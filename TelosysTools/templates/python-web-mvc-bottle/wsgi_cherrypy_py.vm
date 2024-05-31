@@ -1,0 +1,23 @@
+${SHARP} Python entry point to run the CherryPy web server
+${SHARP} Created on $today.date ( Time $today.time )
+
+${SHARP} import the bottle applisation
+import app
+from cherrypy.wsgiserver import CherryPyWSGIServer
+
+'''
+Tested with 'cherrypy 8.9.1' 
+NB : since v 9.0.0  cherrypy.wsgiserver moved to the cheroot 5.0 project
+installation : pip install cherrypy==8.9.1  ( pure Python )
+'''
+
+server = CherryPyWSGIServer(
+    ('0.0.0.0', 8080),
+    app.app, #  'app' variable defined in 'app' module
+    server_name='My_App',
+    numthreads=30)
+
+try:
+    server.start()
+except KeyboardInterrupt:
+    server.stop()

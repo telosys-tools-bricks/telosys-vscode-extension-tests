@@ -1,0 +1,141 @@
+
+## Test file for DIRECTIVES
+
+Blah blah mlqskdlqd  lmqk dmlq 
+
+## ----- 
+// #assertFalse 
+#assertFalse( $a, "error message")
+#assertFalse( $entity.context, "error message")
+#assertFalse( $entity.hasCompositePrimaryKey(), "Composite Primary Key not supported" ) 
+ #assertFalse( $model.getEntityByTableName($entity.context), "Composite Primary Key not supported" ) 
+
+## ----- 
+// #assertTrue
+#assertTrue( $b, "q(dq)" )
+#assertTrue( $entity.hasCompositePrimaryKey(), "Message (if not true) [smfkl] " )
+ #assertTrue  ( $b, "qsdkqldk" )
+
+## ----- 
+#break
+ #break  
+
+## ----- 
+// #cancel
+#cancel(  "qsmdqdmsl))qsd"  )
+ #cancel  ( "qsmdqdmsl))qsd"  )
+
+## ----- 
+// checkId
+#checkId( $entity )
+#checkId  ( $entity )
+#checkId($var)
+ #checkId  ( $var.qmsdkl )
+
+## -----
+// #define  
+#define( $block )Hello $who#end
+ #define( $block )Hello $who#end
+$block
+
+## ----- 
+#error 
+#error("qùsd(sss)lm")
+ #error ( "qùsd(sss)lm" )
+
+## ----- 
+#evaluate
+#evaluate($statement)
+ #evaluate ( $statement )
+
+## ----- FOREACH
+// #foreach 
+#foreach ( $attr in $entity.attributes ) 
+qlskjddkq 
+#end
+
+ ddssd #foreach ( $v in $list ) qlskjddkq #end
+
+#foreach( $attr in $entity.attributes )
+ text  ${foreach.count} : ${attr.name} 
+#if ( $foreach.hasNext )lakzj#elselkqjds#end 
+#end
+
+## ----- FOREACH VARIABLES
+$foreach.count
+${foreach.count}
+$foreach.index
+${foreach.index}
+$foreach.hasNext
+${foreach.hasNext}
+
+${foreach.parent.count}
+${foreach.parent.index}
+${foreach.parent.hasNext}
+
+${foreach.topmost.count}
+${foreach.topmost.index}
+${foreach.topmost.hasNext}
+
+## ----- IF
+// #if 
+#if ( $a == "lqd(cc)" )
+azaze
+#end 
+
+#if ( $a == "lqd(cc)" )azaze#end 
+#if ( $a == "lqd(cc)" ) #stop #else #break #end 
+dfsd #if ( $a == "12" )aaa #elseif($a == "22")xxx#elsebbb#end 
+
+#if ( $a == "lqd(cc)" )
+azaze
+#elseif ( $a == "rr" )
+aee
+#else
+aazeze
+#end
+
+#if ( $fk.isExplicit() && $a == true  )
+#end
+
+## ----- 
+// #include
+#include( "myfile.txt" )
+   #include( "include/myfile.txt" ) 
+ #include( "a.txt", "b.html" )
+#include( $myfile )
+ #include( "header.include", $myfile ) 
+
+## ----- 
+// #macro 
+#macro(sjjs, sss, sss ) 
+qùsdlmqm
+#end 
+
+ #macro  (sjjs,  sss,  sss ) 
+qsd
+#end 
+
+#macro( foo, a, b )
+#set ( $result = "" )
+#foreach ( $i in [1..3] ) ${i}#end
+#end
+
+#foo($aa, $bb)
+
+## ----- 
+// #parse
+#parse("foo.vm")
+ #parse( $myfile )
+#parse("include/initvar.vm")
+
+
+## ----- 
+// #set 
+#set  ( $aaa = $attribute.defaultValue  )
+  #set ( $e = ${fkPart.referencedEntity}  )
+#set ( $e = $fkPart.referencedEntity  )
+
+## ----- 
+#stop 
+  #stop  

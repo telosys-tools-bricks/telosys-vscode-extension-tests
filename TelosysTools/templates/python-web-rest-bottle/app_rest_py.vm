@@ -1,0 +1,10 @@
+# Web app entry point 
+# Created on $today.date ( Time $today.time )
+
+import bottle
+
+import app_rest_modules
+
+if __name__ == "__main__":
+    app_rest_modules.init()
+    bottle.run(host='localhost', port=3001)

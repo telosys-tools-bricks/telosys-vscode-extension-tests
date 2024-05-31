@@ -1,0 +1,184 @@
+##
+#set( $entityNameForURI = ${entity.name.toLowerCase()} )
+#set( $entityIdForURI = $entity.keyAttributesNamesAsString("/", "{{entity['", "']}}" ) )
+##
+## ---------------------------------------------------------------------------------
+## MACRO "gen_label($field)"
+## ---------------------------------------------------------------------------------
+#macro( gen_label $field )
+#set($label=$field.name)
+#if( $field.isKeyElement() )
+#set($label="<u>${field.name}</u>") ## Primary Key => Underlined label
+#end
+#if( $field.isNotNull() ) 
+#set($label="${label} *")
+#end
+    <label for="${field.name}" class="col-sm-2">${label}</label>
+#end
+## ---------------------------------------------------------------------------------
+## MACRO "gen_field($field)"
+## ---------------------------------------------------------------------------------
+#macro( gen_field $field )
+##
+#set($disabled="")
+#if( $field.isAutoIncremented() ) 
+#set($disabled="disabled")
+#end
+##
+#set($required="")
+#if( $field.isNotNull() ) 
+#set($required="required")
+#end
+##
+#set($type="")
+#if( ! $field.isTemporalType() ) 
+#set($type="type=${QUOT}$field.inputType${QUOT}")
+#end
+##
+  <!-- FIELD "${field.name}" #if($field.isKeyElement()) [PK] #end #if($field.isAutoIncremented()) AutoIncremented #end -->
+  <div class="form-group">
+#gen_label($field)
+    <div class="col-sm-8">
+    % if form == "Create" :
+      <input id="${field.name}" class="form-control" name='$field.name' value="" $type placeholder="$field.neutralType" $required $disabled/>
+    % elif form == "Update" : 
+#if( $field.isKeyElement() )
+    <h5> {{entity['${field.name}']}} </h5>
+    <input type="hidden" name="${field.name}" value="{{entity['${field.name}']}}">
+#else
+    <input id="${field.name}" class="form-control" name='${field.name}' value="{{entity['${field.name}']}}" $type placeholder="$field.neutralType" $required $disabled />
+#end
+    % end
+    </div>
+  </div>
+#end
+## ---------------------------------------------------------------------------------
+## MACRO "gen_combo_box($field)"
+## ---------------------------------------------------------------------------------
+#macro( gen_combo_box $field )
+#set( $referencedEntityName = $fn.toLowerCase($field.referencedEntityName) )
+#set( $comboLinkId = "${field.name}Link" )
+  <!-- COMBO-BOX "${field.name}" #if($field.isKeyElement()) [PK] #end  -->
+  <div class="form-group">
+#gen_label($field)
+    <div class="col-sm-8">
+      % currentValue = ""
+      <select id='$field.name' name='$field.name' class="selectpicker" >
+      % for item in list_${referencedEntityName} :
+        <option value="{{item['value']}}" 
+        % if item['selected'] == True:
+        selected="selected"
+        % currentValue = item['value']
+        % end
+      >{{item['label']}}</option>
+      % end
+      </select>
+      <!-- Button with link to referenced entity -->
+      <button type="button" class="btn btn-default" onclick="gotoPage('${field.name}', '${referencedEntityName}')" ><span class="glyphicon glyphicon-new-window"></span></button>
+    </div>
+  </div>
+#end
+## ---------------------------------------------------------------------------------
+
+%if form == "Update" :
+<script>
+history.pushState(null, "", "/${entityNameForURI}/form/${entityIdForURI}");
+</script>
+% end
+
+<div class="container">
+    <div class="container">
+        <form class="form-horizontal" method="post" id="${entity.name.toLowerCase()}_form">
+            <div class="panel-group">
+                <div class="panel panel-info">
+
+<!-- ---------- HEAD : TITLE with BUTTONS [List] and [Create] -->
+<div class="panel-heading">
+  <h4>
+	<span class="glyphicon glyphicon-file"></span>
+	<span class="font-weight-bold">&nbsp;{{form}} $entity.name</span>  
+	<div class="pull-right"> <!-- Buttons -->
+	<!-- [List] -->
+    <a href="/${entityNameForURI}" title="Go to list">
+     <button type="button" class="btn btn-primary "> <span class="glyphicon glyphicon-list"></span> List</button></a>
+    %if form == "Update" :
+    &nbsp;
+	<!-- [Create] -->
+    <a href="/${entityNameForURI}/form" title="Create a new ${entity.name.toLowerCase()}">
+     <button type="button" class="btn btn-success "><span class="glyphicon glyphicon-plus"></span> Create</button></a>
+    % end
+    </div>
+  </h4>
+</div>
+
+<!-- ---------- FIELDS -->
+<div class="panel-body">
+  {{!message}}
+## ---------------------------------------------------------------------------------
+## --- KEY FIELD(S)
+## ---------------------------------------------------------------------------------
+#foreach( $field in $entity.keyAttributes )
+#if( $field.isFK() ) 
+#gen_combo_box($field) ## --- FK => COMBO BOX
+#else
+#gen_field( $field ) ## --- NOT FK => STANDARD FIELD
+#end 
+
+#end ## foreach
+## ---------------------------------------------------------------------------------
+## --- NON KEY FIELD(S)
+## ---------------------------------------------------------------------------------
+#foreach( $field in $entity.nonKeyAttributes )
+#if( $field.isFK() ) 
+#gen_combo_box($field) ## --- FK => COMBO BOX
+#else 
+#gen_field( $field ) ## --- NOT FK => STANDARD FIELD
+#end
+
+#end ## foreach
+## ---------------------------------------------------------------------------------
+</div>
+
+<!-- ---------- BUTTONS [Save] and [Delete] -->
+% if form == "Create" :
+  <div class="panel-footer text-center">
+    <button type="submit" formmethod="post" formaction="/${entityNameForURI}/create" name="non_fk" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
+    <div class="clearfix"></div>
+  </div>
+% elif form == "Update" : 
+  <div class="panel-footer">
+    <button type="submit" formmethod="post" formaction="/${entityNameForURI}/delete/$entityIdForURI"  class="btn btn-danger pull-right"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+    <button type="submit" formmethod="post" formaction="/${entityNameForURI}/update"  class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
+    <div class="clearfix"></div>
+  </div>
+% end
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script>
+function gotoPage(comboId, entityName ) {
+  var element = document.getElementById(comboId);
+  if ( element != null ) {
+	window.location.href = '/' + entityName + '/form/' + element.value ;
+  }
+  else {
+  	alert("ERROR : Element '" + comboId + "' not found!");
+  }
+}
+
+#foreach( $field in $entity.attributes )
+#if( $field.isDateType() )
+$(document).ready(function() {
+    $(function () {
+        $('${SHARP}${field.name}').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+    });
+});
+#end
+#end
+</script>

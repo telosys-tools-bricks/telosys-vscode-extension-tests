@@ -1,0 +1,15 @@
+
+## TEST $bundle
+
+$bundle
+$bundleXx
+${bundle} 
+${ bundle} ## OK
+${bundle } ## OK 
+${bundle  ## OK
+$bundle} 
+
+$bundle.name      
+${bundle.name      }
+${ bundle.name      } ## OK
+

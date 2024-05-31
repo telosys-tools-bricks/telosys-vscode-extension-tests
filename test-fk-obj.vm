@@ -1,0 +1,66 @@
+
+## TEST $fk
+
+$fk
+$fk
+$fkxxx
+${fk} 
+${fk} 
+${ fk} ## OK
+${fk } ## OK 
+${fk  ## OK
+$fk} 
+
+$fk.attributes  
+${fk.attributes  }
+${ fk.attributes  } ## OK
+
+$fk.attributesCount  
+${fk.attributesCount}
+
+$fk.name   
+${fk.name}
+
+$fk.isComposite()   
+${fk.isComposite()}
+
+$fk.isExplicit()   
+${fk.isExplicit()}
+
+$fk.originEntity   
+${fk.originEntity}
+
+$fk.originEntityName   
+${fk.originEntityName}
+
+$fk.referencedEntity  
+${fk.referencedEntity}
+
+$fk.referencedEntityName
+${fk.referencedEntityName}
+
+$fk.sqlName
+${fk.sqlName}
+
+$fk.sqlOriginColumns
+${fk.sqlOriginColumns}
+
+$fk.sqlOriginColumnsAsString
+${fk.sqlOriginColumnsAsString}
+
+$fk.sqlOriginTableName
+${fk.sqlOriginTableName}
+
+$fk.sqlReferencedColumns
+${fk.sqlReferencedColumns}
+
+$fk.sqlReferencedColumnsAsString   
+${fk.sqlReferencedColumnsAsString}
+
+$fk.sqlReferencedTableName
+${fk.sqlReferencedTableName} 
+
+#foreach( $fk in $entity.databaseForeignKeys )
+    $fk.name
+#end
+

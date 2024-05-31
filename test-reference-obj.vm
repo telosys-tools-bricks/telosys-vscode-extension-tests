@@ -1,0 +1,47 @@
+
+## TEST $reference
+
+$reference
+$ref
+$referenceXxxx
+$reference_Zzzz
+${reference} 
+${ref} 
+${ reference} ## OK
+${reference } ## OK 
+${reference  ## OK
+$reference} 
+
+$reference.entity   
+$ref.entity   
+${reference.entity}
+${ref.entity}
+
+$reference.entityName    
+${reference.entityName} 
+$ref.entityName    
+${ref.entityName} 
+
+$reference.toMany    
+${reference.toMany} 
+$ref.toMany   
+${ref.toMany} 
+
+$reference.toManyCount     
+${reference.toManyCount} 
+$ref.toManyCount    
+${ref.toManyCount} 
+
+$ref.toOne     
+${ref.toOne} 
+
+$ref.toOneCount      
+${ref.toOneCount} 
+
+$ref.totalCount      
+${ref.totalCount} 
+
+#foreach( $reference in $entity.references )
+    ${reference.entityName}
+    ${reference.toOneCount}
+#end

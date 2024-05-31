@@ -1,0 +1,51 @@
+// qlkjdklqd
+//  qsdj
+
+"ddd"
+@AggregateRoot  @Context(lqksjd) @Extends(dqsd)
+@Context(lqksjd) @Domain(dgdgd) @DbTable(qmldkqslm)
+@DbView @DbSize(ddd) @Size(  dd) @DbType(kqshdk) @hqjsdhqs(cc)
+@DbTablespace("dd\\dmk") @DbTable("Rql\"sk\"xx") @DbComment(qmsdkq) @DbTable(qsdjkk) @DbTable(qskj) 
+#Foo(dgdgd)  (true) false @Domain(qsdqs)
+@Extends(ljl) @Domain(qmldkqslm) @Context(qlkjdklqd) @DbTable(qlksdj) @DbView @AggregateRoot @DbTablespace(qsd) 
+Author  {    // mlqsdlqmsd  mlqk sdm mql d
+
+lmqsd : timestamp { @Id  @AutoIncremented @Min(455) @Max(455) @GeneratedValue(SEQUENCE) };
+qsjkdq : string ;
+
+aa : binary { @AutoIncremented } ;
+bb : boolean  @AutoIncremented @AutoIncremented @AutoIncremented ; 
+cc : byte ;
+dd : timestamp @DbName(qmldkqslm) @DbComment("qsd\qs") @DbDefaultValue(mlqksdk) @DbDefaultValue(zez)  #tag("d\"d") ;
+ee : date ;
+s : decimal ;
+qsd: double ;
+qsd: float ;
+qds: int ;
+qsd : long ;
+qd : decimal ;
+qsd : string {@Label("foo") @FK("FK_XX", xxxxx) } ; 
+dqs : time ;
+qsd  : timestamp @DbType(kqsjdh)   ;
+qsd:timestamp ;
+qsldlqs: float { } ;
+
+aaa : int   @Id  @AutoIncremented  @AggregateRoot    // qsd true   lkjd qlksdj qlk  qlskd qlksdj   qsldk jqkljsdkjqsl
+                    @DbComment(dd)  @DbType(sss)       @DefaultValue(12)  #Aaa #Bbb(lkqjdq) ;
+
+ bb  qqdb :  double   {  @FK(ss)  @GeneratedValue( IDENTITY, mlkql, qdqd ) @InitialValue(AUTOxxx) AUTO  @Updatable(false) @OrphanRemoval 
+                @OneToOne @DefaultValue("ss")    @Cascade( ALL) };
+  qsdqs : string { @Transient }; 
+  cc : Aaa { @Pattern(dd) #MY_TAG(xx)  #Eddd( "qsddq\"ldksfj\";;qskjd$$*****++++dqd") @Cascade( ALL,REMOVE,MERGE,REFRESH )  @OrphanRemoval @DefaultValue(ss) } ;
+  ddd  :           string { @Insertable(true) };
+  zezeze : Bbbb { @ManyToMany @OneToOne  @Insertable( true ) @Updatable(false) };
+bb : time   { mqlkdq   } ;
+aa : timestamp  { qlkj } ;
+qq : binary { qùmlmqdlml }  ;
+
+// Links 
+link1 : Abcdef { @Transient @DbComment(ddd)  @Cascade(ALL)  @ManyToMany    } ;
+link2 : FooBar { @ManyToMany @OneToOne @Updatable(false) } ;
+
+}
+

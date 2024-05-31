@@ -1,0 +1,65 @@
+#parse("/include/java_header.vm")
+package ${target.javaPackageFromFolder($TEST_SRC)};
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Properties;
+
+import javax.sql.DataSource;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+/**
+ * JUnit tests for DataSourceProvider
+ * 
+ * @author Telosys 
+ *
+ */
+public class DataSourceProviderTest {
+
+	private void print(String message) {
+		System.out.println(message);
+	}
+
+	private void checkProperty(Properties properties, String name) {
+		String value = properties.getProperty(name);
+		print(" . " + name + " = " + value );
+		Assert.assertNotNull(value);
+		Assert.assertFalse(value.isBlank());		
+	}
+
+	@Test
+	public void test1JdbcProperties() throws SQLException {
+		print("--- test JDBC properties");
+    	
+		print("JDBC properties file name = '" + DataSourceProvider.getJdbcPrpertiesFileName() + "'");
+		print(" properties file searched via classpath in : " );
+		print(" 1 - 'src/test/resources' " );
+		print(" 2 - 'src/main/resources' " );
+		
+		Properties properties = DataSourceProvider.loadJdbcPropertiesFromClassPath();
+
+		print("JDBC properties values : " );
+		checkProperty(properties, "jdbc.url" );
+		checkProperty(properties, "jdbc.driverClassName" );
+		checkProperty(properties, "jdbc.username" );
+		checkProperty(properties, "jdbc.password" );		
+	}
+	
+	@Test
+	public void test2DataSource() throws SQLException {
+    	print("--- test DataSourceProvider ");
+    	
+    	DataSource dataSource = DataSourceProvider.getDataSource();
+    	print("DataSource ready. ");
+    	
+    	Connection c = dataSource.getConnection();
+    	print("Connection ready. ");
+    	
+    	Assert.assertNotNull( c );
+    	
+    	c.close();
+    	print("Connection closed. ");
+	}
+}

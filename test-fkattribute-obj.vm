@@ -1,0 +1,51 @@
+
+## TEST $fkAttr
+
+$fkAttr
+$fkattr
+$fkAttribute
+$fkattribute
+$fkAttrxxx
+$fkattributeAaa
+${fkAttr} 
+${fkattr} 
+${fkAttribute} 
+${fkattribute} 
+${ fkAttr} ## OK
+${fkAttr } ## OK 
+${fkAttr  ## OK
+$fkAttr} 
+
+$fkAttr.foreignKeyName  
+$fkAttribute.foreignKeyName  
+${fkAttr.foreignKeyName}
+${fkAttribute.foreignKeyName}
+${ fkAttr.foreignKeyName  } ## OK
+${fkAttr.foreignKeyName    ## OK
+${fkAttr.foreignKeyName   } ## OK
+
+$fkAttr.ordinal   
+${fkAttr.ordinal} 
+$fkattr.ordinal   
+${fkattr.ordinal} 
+$fkAttribute.ordinal   
+${fkAttribute.ordinal} 
+$fkattribute.ordinal   
+${fkattribute.ordinal} 
+
+$fkAttr.referencedAttribute  
+${ee}${fkAttr.referencedAttribute}dqq
+
+$fkAttr.referencedAttributeName  
+${fkAttr.referencedAttributeName} 
+
+$fkAttr.originAttributeName   
+${fkAttr.originAttributeName} 
+
+#foreach( $fkAttribute in $link.attributes )
+    $fkAttribute.originAttributeName references $fkAttribute.referencedAttributeName
+#end
+
+#foreach( $fkAttr in $link.attributes )
+    $fkAttr.foreignKeyName : origin = $fkAttr.originAttributeName  referenced = $fkAttribute.referencedAttributeName
+#end
